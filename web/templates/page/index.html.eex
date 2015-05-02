@@ -1,40 +1,63 @@
-<div class="jumbotron">
-  <h2>Welcome to Phoenix!</h2>
-  <p class="lead">Most frameworks make you choose between speed and a productive environment. <a href="http://phoenixframework.org">Phoenix</a> and <a href="http://elixir-lang.org">Elixir</a> give you both.</p>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-danger control-panel">
+				<div class="panel-heading"></div>
+
+				<div class="panel-body center-parent" data-bind="template: &#39;controlPanelTemplate&#39;">
+					<div class="row center-child">
+						<div class="col-md-7">
+							<h3 class="status text-info control-panel-go" data-bind="text: game.gameStatus, css: game.gameStatusCss">Go!</h3>
+						</div>
+
+						<div class="col-md-5">
+							<div data-bind="if: game.timerRunning">
+								<div class="timer-parent">
+									<span class="timer label label-info" data-bind="text: game.timer, css: game.timerCss">0:08</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<script id="controlPanelTemplate" type="text/html">
+					<div class="row center-child">
+						<div class="col-md-7">
+							<h3 data-bind="text: game.gameStatus, css: game.gameStatusCss" class="status"></h3>
+						</div>
+						<div class="col-md-5">
+							<div data-bind="if: game.timerRunning">
+								<div class="timer-parent">
+									<span data-bind="text: game.timer, css: game.timerCss" class="timer label"></span>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</script>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div data-bind="template: &#39;playersPanelTemplate&#39;">
+				<div data-bind="if: game.isMultiplayer"></div>
+			</div><script id="playersPanelTemplate" type="text/html">
+<div data-bind="if: game.isMultiplayer"><div class="label label-default">Players</div><div class="panel panel-default players-panel"><div data-bind="if: loaded() &amp;&amp; game.players().length &gt; 0"><div data-bind="foreach: game.players" class="panel-body"><div class="row"><div data-bind="css: cssClass" class="progress progress-striped progress-labeled active"><div data-bind="text: formattedName(20), css: cssClass" class="progress-label"></div><div data-bind="css: 'progress-bar-' + colorClass(), style: { width: percentage() + '%' }" class="progress-bar progress-labeled"><div data-bind="text: formattedName(20)" class="progress-label"></div></div></div></div></div></div><div data-bind="if: loaded() &amp;&amp; game.players().length == 0"><div class="panel-body"><div class="row"><div class="progress progress-labeled"><div class="progress-label text-primary">None yet</div></div></div></div></div></div></div>
+			</script>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<pre>
+<code class="code" data-bind="css: game.langCss"><span data-bind=
+"text: game.gamecode" id="gamecode">    
+
+</span><span class="loading-container" data-bind="visible: loading" style=
+"display: none;"><img src="images/loading.gif"></span></code>
+</pre>
+			</div>
+		</div>
+
+	</div>
 </div>
-
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="http://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/issues?state=open">Issues</a>
-      </li>
-      <li>
-        <a href="irc://irc.freenode.net/elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
-</div>
-
