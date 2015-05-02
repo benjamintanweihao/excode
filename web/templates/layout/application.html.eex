@@ -7,7 +7,7 @@
     <meta name="description" content="A Real-time™ Typing Game for Bored Programmers">
     <meta name="author" content="Benjamin Tan Wei Hao">
 
-    <title>EXCode</title>
+    <title>ExCode – The Ultimate Typing Game for Bored Programmers</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/game.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/monokai.css") %>">

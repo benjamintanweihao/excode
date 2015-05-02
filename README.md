@@ -1,4 +1,6 @@
-# EXCode: A Real-time™ Typing Game for Bored Programmers
+# ExCode: A Real-time™ Typing Game for Bored Programmers
+
+![ExCodeLogo](https://raw.githubusercontent.com/benjamintanweihao/excode/master/priv/static/images/logo.png)
 
 __Note: Nothing to see here yet!__
 
