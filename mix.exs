@@ -29,7 +29,7 @@ defmodule Excode.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, path: "/Users/benjamintan/workspace/learning/elixir/phoenix", override: true},
+    [{:phoenix, "0.12.0", override: true},
      {:phoenix_ecto, "~> 0.3"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_live_reload, "~> 0.3"},
