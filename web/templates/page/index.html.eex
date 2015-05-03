@@ -4,7 +4,7 @@
 			<div class="panel panel-danger control-panel">
 				<div class="panel-heading"></div>
 
-				<div class="panel-body center-parent" data-bind="template: &#39;controlPanelTemplate&#39;">
+				<div class="panel-body center-parent" data-bind="template: 'controlPanelTemplate'">
 					<div class="row center-child">
 						<div class="col-md-7">
 							<h3 class="status text-info control-panel-go" data-bind="text: game.gameStatus, css: game.gameStatusCss">Go!</h3>
@@ -37,25 +37,50 @@
 		</div>
 
 		<div class="col-md-6">
-			<div data-bind="template: &#39;playersPanelTemplate&#39;">
+			<div data-bind="template: 'playersPanelTemplate'">
 				<div data-bind="if: game.isMultiplayer"></div>
-			</div><script id="playersPanelTemplate" type="text/html">
-<div data-bind="if: game.isMultiplayer"><div class="label label-default">Players</div><div class="panel panel-default players-panel"><div data-bind="if: loaded() &amp;&amp; game.players().length &gt; 0"><div data-bind="foreach: game.players" class="panel-body"><div class="row"><div data-bind="css: cssClass" class="progress progress-striped progress-labeled active"><div data-bind="text: formattedName(20), css: cssClass" class="progress-label"></div><div data-bind="css: 'progress-bar-' + colorClass(), style: { width: percentage() + '%' }" class="progress-bar progress-labeled"><div data-bind="text: formattedName(20)" class="progress-label"></div></div></div></div></div></div><div data-bind="if: loaded() &amp;&amp; game.players().length == 0"><div class="panel-body"><div class="row"><div class="progress progress-labeled"><div class="progress-label text-primary">None yet</div></div></div></div></div></div></div>
+			</div>
+			<script id="playersPanelTemplate" type="text/html">
+				<div data-bind="if: game.isMultiplayer">
+					<div class="label label-default">Players</div>
+					<div class="panel panel-default players-panel">
+						<div data-bind="if: loaded() && game.players().length > 0">
+							<div data-bind="foreach: game.players" class="panel-body">
+								<div class="row">
+									<div data-bind="css: cssClass" class="progress progress-striped progress-labeled active">
+										<div data-bind="text: formattedName(20), css: cssClass" class="progress-label"></div>
+										<div data-bind="css: 'progress-bar-' + colorClass(), style: { width: percentage() + '%' }" class="progress-bar progress-labeled">
+											<div data-bind="text: formattedName(20)" class="progress-label"></div>
+										</div>	
+									</div>
+								</div>
+							</div>	
+						</div>
+						<div data-bind="if: loaded() && game.players().length == 0">
+							<div class="panel-body">
+								<div class="row">
+									<div class="progress progress-labeled">
+										<div class="progress-label text-primary">None yet</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</script>
 		</div>
 	</div>
-
 
 	<div class="row">
 		<div class="col-md-12">
 			<div class="row">
 				<pre>
-<code class="code" data-bind="css: game.langCss"><span data-bind=
-"text: game.gamecode" id="gamecode">    
-
-</span><span class="loading-container" data-bind="visible: loading" style=
-"display: none;"><img src="images/loading.gif"></span></code>
-</pre>
+					<code class="code" data-bind="css: game.langCss"><span data-bind="text: game.gamecode" id="gamecode">
+						<span class="loading-container" data-bind="visible: loading" style="display: none;">
+							<img src="images/loading.gif">
+						</span>
+					</code>
+				</pre>
 			</div>
 		</div>
 	</div>
