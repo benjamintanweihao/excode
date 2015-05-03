@@ -554,14 +554,33 @@ var user = {
         clearTimeout(timeId);
         lastTimestamp = null;
 
-        console.log('emit ingame:complete');
+        console.log(exercise);
+ 
+        var stats = {
+            time: state.time,
+            keystrokes: cursor.keystrokes,
+            mistakes: cursor.mistakes
+        };
+ 
+        var CHARACTERS_PER_WORD = 5;
+        var MILLISECONDS_PER_MINUTE = 60000;
+ 
+        exercise.typeables = 1;
+ 
+        var realTime    = moment().diff(state.startTime, 'milliseconds');
+        stats.time      = realTime;
+        stats.typeables = exercise.typeables;
+        stats.speed     = (stats.typeables / CHARACTERS_PER_WORD) * (1 / (stats.time / MILLISECONDS_PER_MINUTE));
+        stats.percentUnproductive = 1 - stats.typeables / stats.keystrokes;
+ 
         // socket.emit('ingame:complete', {
         //     time: state.time,
         //     keystrokes: cursor.keystrokes,
         //     mistakes: cursor.mistakes
         // });
+ 
+        console.log(stats);
     };
-
 
     var timeId = null;
     var lastTimestamp = null;
@@ -750,11 +769,17 @@ var user = {
 		data.game.lang = "ruby"
 		data.timeLeft = moment();
 		data.success = true;
+    // data.exercise = {
+		// 	id: "123",
+		// 	code: "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n",
+		// 	projectName: "Jekyll",
+		// 	typeableCode: "alias_command :server, :serve\ncommand :doctor do |c|\nc.syntax = 'jekyll doctor'\nc.description = 'Search site and print specific deprecation warnings'\nc.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\nc.action do |args, options|\noptions = normalize_options(options.__hash__)\noptions = Jekyll.configuration(options)\nJekyll::Commands::Doctor.process(options)\nend\nend\nalias_command :hyde, :doctor\n"
+		// }
     data.exercise = {
 			id: "123",
-			code: "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n",
+			code: "def foo\nend\n",
 			projectName: "Jekyll",
-			typeableCode: "alias_command :server, :serve\ncommand :doctor do |c|\nc.syntax = 'jekyll doctor'\nc.description = 'Search site and print specific deprecation warnings'\nc.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\nc.action do |args, options|\noptions = normalize_options(options.__hash__)\noptions = Jekyll.configuration(options)\nJekyll::Commands::Doctor.process(options)\nend\nend\nalias_command :hyde, :doctor\n"
+			typeableCode: "def foo\nend\n"
 		}
 
     gameReady(data);
