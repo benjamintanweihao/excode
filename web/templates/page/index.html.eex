@@ -75,9 +75,11 @@
 		<div class="col-md-12">
 			<div class="row">
 				<pre>
-					<code class="code" data-bind="css: game.langCss"><span data-bind="text: game.gamecode" id="gamecode">
-						<span class="loading-container" data-bind="visible: loading" style="display: none;">
-							<img src="images/loading.gif">
+					<code class="code" data-bind="css: game.langCss">
+						<span data-bind="text: game.gamecode" id="gamecode">
+							<span class="loading-container" data-bind="visible: loading" style="display: none;">
+								<img src="images/loading.gif">
+							</span>
 						</span>
 					</code>
 				</pre>

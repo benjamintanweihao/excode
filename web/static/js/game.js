@@ -3,6 +3,8 @@ var user = {
 	username: 'Ben'
 };
 
+var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
+
 (function() {
     hljs.tabReplace = '    ';
 
@@ -426,7 +428,6 @@ var user = {
         if (fullyStarted) {
             return;
         }
-        state.startTime = moment();
         viewModel.game.gameStatus('Go!');
         viewModel.game.gameStatusCss('text-info control-panel-go');
         fullyStarted = true;
@@ -597,8 +598,7 @@ var user = {
             var seconds = t.seconds();
             seconds = state.time < 0 ? -seconds + 1 : seconds;
 
-            viewModel.game.timer(sprintf('%s%d:%02d',
-                state.time < 0 ? 'T-' : '', minutes, seconds));
+            viewModel.game.timer(sprintf('%s%d:%02d', state.time < 0 ? 'T-' : '', minutes, seconds));
             viewModel.game.timerCss(state.time < 0 ? 'label-warning' : 'label-info');
 
             // Increment with smaller granularity for the cruicial starting time
@@ -644,6 +644,9 @@ var user = {
 
     Mousetrap.bind(keys, wrapFullyStarted(function(e, key) {
         e.preventDefault();
+			
+				// prevent any keys when time is before 0
+				if (state.time < 0) return;
 
         key = _.contains(['space', 'shift+space'], key) ? ' ' :
               _.contains(['enter', 'shift+enter'], key) ? '\n' :
@@ -657,7 +660,6 @@ var user = {
         state.playerCursor.backspaceKey();
     }));
 
-
     // socket.on('ingame:ready:res', function(data) {
     var gameReady = function(data) {
         console.log('received ingame:ready:res');
@@ -670,7 +672,7 @@ var user = {
         game = data.game;
         exercise = data.exercise;
         state.code = data.exercise.typeableCode;
-        state.time = data.timeLeft;
+        state.time = -3000;
         nonTypeables = data.nonTypeables;
         viewModel.loaded(true);
         viewModel.loading(false);
@@ -772,20 +774,20 @@ var user = {
 		data.game = new GameState();
 		data.game.starting = true;
 		data.game.lang = "ruby"
-		data.timeLeft = moment();
 		data.success = true;
-    // data.exercise = {
-		// 	id: "123",
-		// 	code: "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n",
-		// 	projectName: "Jekyll",
-		// 	typeableCode: "alias_command :server, :serve\ncommand :doctor do |c|\nc.syntax = 'jekyll doctor'\nc.description = 'Search site and print specific deprecation warnings'\nc.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\nc.action do |args, options|\noptions = normalize_options(options.__hash__)\noptions = Jekyll.configuration(options)\nJekyll::Commands::Doctor.process(options)\nend\nend\nalias_command :hyde, :doctor\n"
-		// }
+
     data.exercise = {
 			id: "123",
-			code: "def foo\nend\n",
+			code: "\nalias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n",
 			projectName: "Jekyll",
-			typeableCode: "def foo\nend\n"
+			typeableCode: "alias_command :server, :serve\ncommand :doctor do |c|\nc.syntax = 'jekyll doctor'\nc.description = 'Search site and print specific deprecation warnings'\nc.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\nc.action do |args, options|\noptions = normalize_options(options.__hash__)\noptions = Jekyll.configuration(options)\nJekyll::Commands::Doctor.process(options)\nend\nend\nalias_command :hyde, :doctor\n"
 		}
+    // data.exercise = {
+		// 	id: "123",
+		// 	code: "def foo\nend\n",
+		// 	projectName: "Jekyll",
+		// 	typeableCode: "def foo\nend\n"
+		// }
 
     gameReady(data);
 		
