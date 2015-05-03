@@ -206,9 +206,6 @@
     color: #ffffff;
 }
 
-/* Admin Page */
-.form-group-tooltip input,
-.form-group-tooltip textarea {
-    max-width: 70%;
+.modal-content {
+	height: 500px;
 }
-
