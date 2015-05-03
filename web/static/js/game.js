@@ -3,7 +3,6 @@ var user = {
 	username: 'Ben'
 };
 
-
 (function() {
     hljs.tabReplace = '    ';
 
@@ -553,8 +552,6 @@ var user = {
         game.isComplete = true;
         clearTimeout(timeId);
         lastTimestamp = null;
-
-        console.log(exercise);
  
         var stats = {
             time: state.time,
@@ -565,12 +562,10 @@ var user = {
         var CHARACTERS_PER_WORD = 5;
         var MILLISECONDS_PER_MINUTE = 60000;
  
-        exercise.typeables = 1;
- 
         var realTime    = moment().diff(state.startTime, 'milliseconds');
         stats.time      = realTime;
-        stats.typeables = exercise.typeables;
-        stats.speed     = (stats.typeables / CHARACTERS_PER_WORD) * (1 / (stats.time / MILLISECONDS_PER_MINUTE));
+        stats.typeables = exercise.typeableCode.length;
+        stats.speed     = parseInt((stats.typeables / CHARACTERS_PER_WORD) * (1 / (stats.time / MILLISECONDS_PER_MINUTE)));
         stats.percentUnproductive = 1 - stats.typeables / stats.keystrokes;
  
         // socket.emit('ingame:complete', {
