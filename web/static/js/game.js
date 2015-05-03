@@ -9,17 +9,17 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     hljs.tabReplace = '    ';
 
     var GameState = function() {
-        this.gameStatus = ko.observable('Loading...');
+        this.gameStatus    = ko.observable('Loading...');
         this.gameStatusCss = ko.observable('');
-        this.timer = ko.observable('');
-        this.timerCss = ko.observable('');
-        this.timerRunning = ko.observable(false);
-        this.started = ko.observable(false);
-        this.gamecode = ko.observable('');
-        this.projectName = ko.observable('');
-        this.langCss = ko.observable('');
+        this.timer         = ko.observable('');
+        this.timerCss      = ko.observable('');
+        this.timerRunning  = ko.observable(false);
+        this.started       = ko.observable(false);
+        this.gamecode      = ko.observable('');
+        this.projectName   = ko.observable('');
+        this.langCss       = ko.observable('');
         this.isMultiplayer = ko.observable(false);
-        this.players = ko.observableArray();
+        this.players       = ko.observableArray();
     };
 
     var playerMapping = {
@@ -73,24 +73,24 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
      * Represents a player or opponent's cursor
      */
     var CodeCursor = function(cfg) {
-        this.playerId = cfg.playerId;
-        this.playerName = cfg.playerName;
-        this.cursor = cfg.cursor;
-        this.code = cfg.code;
-        this.codeLength = cfg.code.length;
-        this.pos = 0;
-        this.keystrokes = 0;
-        this.isMistaken = false;
+        this.playerId          = cfg.playerId;
+        this.playerName        = cfg.playerName;
+        this.cursor            = cfg.cursor;
+        this.code              = cfg.code;
+        this.codeLength        = cfg.code.length;
+        this.pos               = 0;
+        this.keystrokes        = 0;
+        this.isMistaken        = false;
         this.mistakePathLength = 0;
-        this.mistakes = 0;
-        this.mistakePositions = [];
+        this.mistakes          = 0;
+        this.mistakePositions  = [];
 
         this.isMainPlayer = cfg.isMainPlayer || false;
 
-        this.onCorrectKey = cfg.onCorrectKey || function() {};
+        this.onCorrectKey    = cfg.onCorrectKey    || function() {};
         this.onAdvanceCursor = cfg.onAdvanceCursor || function() {};
         this.onRetreatCursor = cfg.onRetreatCursor || function() {};
-        this.onGameComplete = cfg.onGameComplete || function() {};
+        this.onGameComplete  = cfg.onGameComplete  || function() {};
 
         this.cursor.addClass(this.playerName);
     };
@@ -672,7 +672,8 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
         game = data.game;
         exercise = data.exercise;
         state.code = data.exercise.typeableCode;
-        state.time = -3000;
+        state.startTime = moment().add(GAME_SINGLE_PLAYER_WAIT_TIME, 'seconds').toDate();
+
         nonTypeables = data.nonTypeables;
         viewModel.loaded(true);
         viewModel.loading(false);
