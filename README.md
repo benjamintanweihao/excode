@@ -13,6 +13,27 @@ To start your new Phoenix application:
 
 Now you can visit `localhost:4000` from your browser.
 
+## Roadmap
+
+### First Iteration
+
+- [x] Single player 
+- [x] Basic statistics
+- [x] Countdown timer
+- [x] Fixed exercise
+
+### Second Iteration
+
+- [ ] Multi-player (multiple cursors)
+- [ ] Show all players current position
+- [ ] Selecting exercise based on programming language
+
+### Third Iteration
+
+- [ ] Styling
+- [ ] Persistance (High Scores, Average WPM etc)
+
 ## Credits
 
 Special thanks to [Zaven Muradyan](https://github.com/voithos/swiftcode) for the original code.
+
