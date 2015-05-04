@@ -426,9 +426,9 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     var fullyStarted = false;
     var startGame = function() {
         if (fullyStarted) {
+        		viewModel.game.gameStatus('Go!');
             return;
         }
-        viewModel.game.gameStatus('Go!');
         viewModel.game.gameStatusCss('text-info control-panel-go');
         fullyStarted = true;
     };

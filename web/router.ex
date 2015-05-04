@@ -15,11 +15,12 @@ defmodule Excode.Router do
   scope "/", Excode do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/",      PageController, :index
+    get "/lobby", PageController, :lobby
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Excode do
-  #   pipe_through :api
-  # end
+  socket "/ws", Excode do
+    channel "ingame:*", GameChannel
+  end
+
 end

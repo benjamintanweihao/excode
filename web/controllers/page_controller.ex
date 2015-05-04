@@ -6,4 +6,8 @@ defmodule Excode.PageController do
   def index(conn, _params) do
     render conn, "index.html"
   end
+
+  def lobby(conn, _params) do
+    render conn, "lobby.html"
+  end
 end
