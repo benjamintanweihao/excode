@@ -40,7 +40,6 @@
                   </tr>
                 </tbody>
               </table>
-              <div data-bind="visible: loading" class="loading-container"><img src="/images/loading.gif"/></div>
             </script>
           </div>
         </fieldset>
