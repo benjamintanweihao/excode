@@ -57,7 +57,7 @@
         }.bind(this);
     };
 
-    viewModel = {
+    var viewModel = {
         games: ko.observableArray(),
         loading: ko.observable(false),
         loaded: ko.observable(false),
@@ -69,10 +69,6 @@
         slideForward: function() {
             $('.gametype-container').hide('slide', { direction: 'left' });
             $('.lang-container').show('slide', { direction: 'right' });
-        },
-        slideBack: function() {
-            $('.lang-container').hide('slide', { direction: 'right' });
-            $('.gametype-container').show('slide', { direction: 'left' });
         },
         newGame: function(key) {
             $('button.back-btn').attr('disabled', 'disabled');
@@ -86,11 +82,12 @@
             //     player: user._id,
             //     gameType: this.newGameType()
             // });
+            // TODO; remove when done. This will be handled by the websocket.
+            window.location = '/game';
         }
     };
 
     ko.applyBindings(viewModel);
-
 
     var fetchGames = function() {
         console.log('received games:fetch:res');

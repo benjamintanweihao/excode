@@ -1,7 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="well">
         <fieldset>
           <legend>Join Game</legend>
@@ -61,12 +60,9 @@
         <div class="slide-panel lang-container">
           <div class="well">
             <fieldset class="languages">
-              <legend>Choose Language
-                <button type="button" data-bind="click: slideBack" class="back-btn btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-chevron-left"></span> Back</button>
-              </legend>
+              <legend>Choose Language</legend>
               <div class="language-list">
-              	<button class="lang btn btn-danger btn-block lang-ruby" type='button' data-bind="click: newGame.bind($data, 'ruby}')")>Ruby</button>
-              	<button class="lang btn btn-danger btn-block lang-python" type='button' data-bind="click: newGame.bind($data, 'python}')")>Python</button>
+              	<button class="lang btn btn-danger btn-block lang-ruby" type='button' data-bind="click: newGame.bind($data, 'ruby')")>Ruby</button>
 							</div>
             </fieldset>
           </div>
