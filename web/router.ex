@@ -21,7 +21,9 @@ defmodule Excode.Router do
   end
 
   socket "/ws", Excode do
-    channel "ingame:*", GameChannel
+    channel "games:*", GameChannel
+    channel "lobby",   LobbyChannel
+    channel "lobby:*", LobbyChannel
   end
 
 end

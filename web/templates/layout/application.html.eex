@@ -19,7 +19,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.0/alertify.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
+		<script src="//cdnjs.cloudflare.com/ajax/libs/chance/0.5.6/chance.js"></script>
   </head>
 
   <body>
@@ -36,7 +36,6 @@
 
     </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script>require("web/static/js/app")</script>
 		<script>require("web/static/js/<%= @js %>")</script>
   </body>
 </html>

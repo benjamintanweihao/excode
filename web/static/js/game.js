@@ -1,6 +1,6 @@
 var user = {
-	_id: '55432db64fadddaa62000808',
-	username: 'Ben'
+	_id: chance.guid(), 
+	username: chance.name() 
 };
 
 var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
@@ -30,7 +30,7 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     };
 
     var Player = function(id, numId, name) {
-        this.id = id; // Used for removal
+        this.id = id;
         this.name = ko.observable(name);
         this.percentage = ko.observable(0);
         this.cssClass = ko.observable('player' + numId);
@@ -69,9 +69,6 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     var exercise = null;
     var nonTypeables = null;
 
-    /**
-     * Represents a player or opponent's cursor
-     */
     var CodeCursor = function(cfg) {
         this.playerId          = cfg.playerId;
         this.playerName        = cfg.playerName;
@@ -158,8 +155,6 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     };
 
     CodeCursor.prototype.incorrectKey = function() {
-        // We must *not* be at the final character of the code if we want to
-        // create a mistake path, so check for it
         if (this.pos < this.codeLength - 1) {
             this.isMistaken = true;
             this.mistakes++;
@@ -167,8 +162,6 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
             this.advanceCursorWithClass(this.playerName, 'mistake');
             this.mistakePathLength++;
         }
-        // But we do want to highlight a mistake, even if we're at the end
-        // of the code
         this.cursor.addClass('mistaken');
     };
 
@@ -197,9 +190,6 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     };
 
 
-    /**
-     * Current game state
-     */
     var state = {
         time: null,
         startTime: null,
@@ -209,19 +199,12 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
         opponentCursors: {}
     };
 
-    /**
-     * Extract game code, manipulate references, remove non-typeables,
-     * and wrap each character is a specific span tag
-     */
     var bindCodeCharacters = function() {
         $gamecode = $('#gamecode');
 
         var codemap = [];
         var $contents = $gamecode.contents();
 
-        // Loop through contents of code, and add all non-comment
-        // blocks into the codemap, keeping track of their positions
-        // and elements
         _.each($contents, function(elem, elIdx) {
             var $elem = $(elem);
 

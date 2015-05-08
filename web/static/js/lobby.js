@@ -1,154 +1,132 @@
+import {Socket} from "phoenix"
+
+var user = {
+	_id: chance.guid()
+};
+
 (function() {
-    $(document).ready(function() {
-        $('.panel-body').slimScroll({
-            color: '#2c3e50',
-            height: '386px'
-        });
+	var Game = function(opts) {
+		this._id        = chance.guid();
+		this.lang       = ko.observable(opts.lang);
+		this.langName   = ko.observable(opts.langName);
+		this.numPlayers = ko.observable(opts.numPlayers);
+		this.maxPlayers = ko.observable(opts.maxPlayers);
+		this.status     = ko.observable(opts.status);
+		this.statusText = ko.observable(opts.statusText);
+		this.statusCss  = ko.computed(function() {
+			var bindings = {
+				'waiting': 'text-warning',
+			'ingame': 'text-success'
+			};
+			return bindings[this.status()];
+		}, this);
+		this.isJoinable = ko.observable(opts.isJoinable);
+		this.joinCss = ko.observable();
 
-        $('.language-list').slimScroll({
-            color: '#2c3e50',
-            height: '430px'
-        });
-    });
+		this.join = function() {
+			$('button.join-btn').attr('disabled', 'disabled');
+			$('button.game-type').attr('disabled', 'disabled');
+			$('button.back-btn').attr('disabled', 'disabled');
+			$('button.lang').attr('disabled', 'disabled');
+			this.joinCss('join-choice');
 
-    // TODO: Rethink the gameNum concept
-    var gameNum = 1;
-    var Game = function(opts) {
-        this._id        = opts._id;
-        this.num        = ko.observable(opts.num || (gameNum++));
-        this.lang       = ko.observable(opts.lang);
-        this.langName   = ko.observable(opts.langName);
-        this.numPlayers = ko.observable(opts.numPlayers);
-        this.maxPlayers = ko.observable(opts.maxPlayers);
-        this.status     = ko.observable(opts.status);
-        this.statusText = ko.observable(opts.statusText);
-        this.statusCss  = ko.computed(function() {
-            var bindings = {
-                'waiting': 'text-warning',
-                'ingame': 'text-success'
-            };
-            return bindings[this.status()];
-        }, this);
-        this.isJoinable = ko.observable(opts.isJoinable);
-        this.joinCss = ko.observable();
+			channel.push('games:join', { game: this._id, player: user._id });
 
-        this.join = function() {
-            $('button.join-btn').attr('disabled', 'disabled');
-            $('button.game-type').attr('disabled', 'disabled');
-            $('button.back-btn').attr('disabled', 'disabled');
-            $('button.lang').attr('disabled', 'disabled');
-            this.joinCss('join-choice');
+		}.bind(this);
 
-            console.log('emit games:join');
-            // socket.emit('games:join', { game: this._id, player: user._id });
-        }.bind(this);
+		this.update = function(item) {
+			var self = this;
+			_.forOwn(item, function(val, key) {
+				if (key in this) {
+					if (ko.isObservable(this[key])) {
+						this[key](val);
+					} else {
+						this[key] = val;
+					}
+				}
+			}, this);
+		}.bind(this);
+	};
 
-        this.update = function(item) {
-            var self = this;
-            _.forOwn(item, function(val, key) {
-                if (key in this) {
-                    if (ko.isObservable(this[key])) {
-                        this[key](val);
-                    } else {
-                        this[key] = val;
-                    }
-                }
-            }, this);
-        }.bind(this);
-    };
+	var viewModel = {
+		games: ko.observableArray(),
+		loading: ko.observable(false),
+		loaded: ko.observable(false),
+		newGameType: ko.observable(''),
+		setGameType: function(gameType) {
+			this.newGameType(gameType);
+			this.slideForward();
+		},
+		slideForward: function() {
+			$('.gametype-container').hide('slide', { direction: 'left' });
+			$('.lang-container').show('slide', { direction: 'right' });
+		},
+		newGame: function(lang) {
+			$('button.back-btn').attr('disabled', 'disabled');
+			$('button.lang').attr('disabled', 'disabled');
+			$('button.join-btn').attr('disabled', 'disabled');
+			$('button.lang-' + lang).addClass('lang-choice');
 
-    var viewModel = {
-        games: ko.observableArray(),
-        loading: ko.observable(false),
-        loaded: ko.observable(false),
-        newGameType: ko.observable(''),
-        setGameType: function(gameType) {
-            this.newGameType(gameType);
-            this.slideForward();
-        },
-        slideForward: function() {
-            $('.gametype-container').hide('slide', { direction: 'left' });
-            $('.lang-container').show('slide', { direction: 'right' });
-        },
-        newGame: function(key) {
-            $('button.back-btn').attr('disabled', 'disabled');
-            $('button.lang').attr('disabled', 'disabled');
-            $('button.join-btn').attr('disabled', 'disabled');
-            $('button.lang-' + key).addClass('lang-choice');
+			channel.push('games:create', {
+				lang: lang,
+				player: user._id,
+				gameType: this.newGameType()
+			});
+		}
+	};
 
-            console.log('emit games:createnew');
-            // socket.emit('games:createnew', {
-            //     key: key,
-            //     player: user._id,
-            //     gameType: this.newGameType()
-            // });
-            // TODO; remove when done. This will be handled by the websocket.
-            window.location = '/game';
-        }
-    };
+	ko.applyBindings(viewModel);
 
-    ko.applyBindings(viewModel);
 
-    var fetchGames = function() {
-        console.log('received games:fetch:res');
+	// socket.on('games:join:res', function(data) {
+	//     console.log('received games:join:res');
+	//     if (data.success) {
+	//         redirect('/game');
+	//     }
+	// });
 
-        viewModel.loading(false);
-        viewModel.loaded(true);
-    };
+	// socket.on('games:new', function(data) {
+	//     console.log('received games:new');
+	//     viewModel.games.unshift(new Game(data));
+	// });
 
-    // socket.on('games:fetch:res', function(data) {
-    //     console.log('received games:fetch:res');
-    //     var games = _.map(data, function(v) {
-    //         return new Game(v);
-    //     });
-    //     ko.utils.arrayPushAll(viewModel.games, games);
-    //     viewModel.loading(false);
-    //     viewModel.loaded(true);
-    // });
 
-    // socket.on('games:update', function(data) {
-    //     console.log('received games:update');
-    //     var match = ko.utils.arrayFirst(viewModel.games(), function(item) {
-    //         return item._id == data._id;
-    //     });
-    //     if (match) {
-    //         match.update(data);
-    //     }
-    // });
+	// socket.on('games:remove', function(data) {
+	//     console.log('received games:remove');
+	//     var match = ko.utils.arrayFirst(viewModel.games(), function(item) {
+	//         return item._id == data._id;
+	//     });
+	//     if (match) {
+	//         viewModel.games.remove(match);
+	//     }
+	// });
 
-    // socket.on('games:join:res', function(data) {
-    //     console.log('received games:join:res');
-    //     if (data.success) {
-    //         redirect('/game');
-    //     }
-    // });
+	var socket  = new Socket('/ws')
+		socket.connect()
 
-    // socket.on('games:new', function(data) {
-    //     console.log('received games:new');
-    //     viewModel.games.unshift(new Game(data));
-    // });
+		var channel = null;
 
-    // socket.on('games:createnew:res', function(data) {
-    //     console.log('received games:createnew:res');
-    //     if (data.success) {
-    //         redirect('/game');
-    //     }
-    // });
+	socket.join('lobby', {}).receive('ok', chan => {
 
-    // socket.on('games:remove', function(data) {
-    //     console.log('received games:remove');
-    //     var match = ko.utils.arrayFirst(viewModel.games(), function(item) {
-    //         return item._id == data._id;
-    //     });
-    //     if (match) {
-    //         viewModel.games.remove(match);
-    //     }
-    // });
+		channel = chan;
 
-    console.log('emit games:fetch');
-    // socket.emit('games:fetch');
-		fetchGames();
+		chan.push('games:fetch');
 
-    viewModel.loading(true);
+		chan.on('games:fetch:res', payload => {
+			var games = _.map(payload.games, function(v) {
+				return new Game(v);
+			});
+			ko.utils.arrayPushAll(viewModel.games, games);
+			viewModel.loading(false);
+			viewModel.loaded(true);
+		});
+
+		chan.on('games:create:res', payload => {
+			location.href = "/game"
+		});
+
+	});
+
+	viewModel.loading(true);
 })();
 
