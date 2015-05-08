@@ -1,5 +1,5 @@
 var user = {
-	_id: chance.guid(), 
+	id: chance.guid(), 
 	username: chance.name() 
 };
 
@@ -426,7 +426,7 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
         if (!state.playerCursor) {
             state.playerCursor = new CodeCursor({
                 isMainPlayer: true,
-                playerId: user._id,
+                playerId: user.id,
                 playerName: 'player',
                 cursor: $gamecode.find('.code-char').first(),
                 code: state.code,
@@ -448,7 +448,7 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
         // Add new opponents that are not in the list yet
         _.each(game.players, function(player, i) {
             // Do not add self as an opponent
-            if (player != user._id && !(player in state.opponentCursors)) {
+            if (player != user.id && !(player in state.opponentCursors)) {
                 addOpponent(player, game.playerNames[i]);
             }
         });
@@ -515,20 +515,20 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     };
 
     var addInitialPlayer = function() {
-        viewModel.game.players.push(new Player(user._id, 0, user.username));
+        viewModel.game.players.push(new Player(user.id, 0, user.username));
     };
 
     var emitCursorAdvance = function() {};
     //     socket.emit('ingame:advancecursor', {
-    //         game: game._id,
-    //         player: user._id
+    //         game: game.id,
+    //         player: user.id
     //     });
     // };
 
     var emitCursorRetreat = function() {};
     //     socket.emit('ingame:retreatcursor', {
-    //         game: game._id,
-    //         player: user._id
+    //         game: game.id,
+    //         player: user.id
     //     });
     // };
 
@@ -690,7 +690,7 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
         if (game.isSinglePlayer) {
             message = 'You completed the code! Well done!';
         } else {
-            if (game.winner === user._id) {
+            if (game.winner === user.id) {
                 message = 'Congratulations! You got 1st place!';
             } else {
                 message = 'Nicely done!';
@@ -751,7 +751,7 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 5;
     // });
 
     console.log('emit ingame:ready');
-    // socket.emit('ingame:ready', { player: user._id });
+    // socket.emit('ingame:ready', { player: user.id });
 
 
 		var data = {}

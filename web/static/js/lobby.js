@@ -1,22 +1,20 @@
 import {Socket} from "phoenix"
 
 var user = {
-	_id: chance.guid()
+	id: chance.guid()
 };
 
 (function() {
 	var Game = function(opts) {
-		this._id        = chance.guid();
+		this.id         = chance.guid();
 		this.lang       = ko.observable(opts.lang);
-		this.langName   = ko.observable(opts.langName);
 		this.numPlayers = ko.observable(opts.numPlayers);
-		this.maxPlayers = ko.observable(opts.maxPlayers);
 		this.status     = ko.observable(opts.status);
 		this.statusText = ko.observable(opts.statusText);
 		this.statusCss  = ko.computed(function() {
 			var bindings = {
 				'waiting': 'text-warning',
-			'ingame': 'text-success'
+				'ingame': 'text-success'
 			};
 			return bindings[this.status()];
 		}, this);
@@ -30,7 +28,7 @@ var user = {
 			$('button.lang').attr('disabled', 'disabled');
 			this.joinCss('join-choice');
 
-			channel.push('games:join', { game: this._id, player: user._id });
+			channel.push('games:join', { game: this.id, player: user.id });
 
 		}.bind(this);
 
@@ -69,7 +67,7 @@ var user = {
 
 			channel.push('games:create', {
 				lang: lang,
-				player: user._id,
+				player: user.id,
 				gameType: this.newGameType()
 			});
 		}
@@ -94,7 +92,7 @@ var user = {
 	// socket.on('games:remove', function(data) {
 	//     console.log('received games:remove');
 	//     var match = ko.utils.arrayFirst(viewModel.games(), function(item) {
-	//         return item._id == data._id;
+	//         return item.id == data.id;
 	//     });
 	//     if (match) {
 	//         viewModel.games.remove(match);

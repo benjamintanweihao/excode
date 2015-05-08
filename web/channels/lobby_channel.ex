@@ -1,20 +1,6 @@
 defmodule Excode.LobbyChannel do
   use Phoenix.Channel
 
-  defmodule Game do
-    defstruct _id: nil, 
-         exercise: "123", 
-       isComplete: false,
-       isJoinable: true,
-   isSinglePlayer: false,
-       isViewable: true,
-             lang: "ruby",
-         langName: "Ruby",
-       maxPlayers: 4,
-       numPlayers: 1,
-      players: ["player8904"]
-  end
-
   def join("lobby", message, socket) do
     {:ok, socket}
   end
@@ -29,7 +15,7 @@ defmodule Excode.LobbyChannel do
 
   def handle_in("games:create", message, socket) do
     # 1. Find user
-    # 2. Create new game
+    # 2. Create new game (language)
     # 3. Emit success
     push socket, "games:create:res", %{}
     {:noreply, socket}

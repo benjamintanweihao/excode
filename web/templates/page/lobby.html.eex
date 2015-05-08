@@ -26,7 +26,7 @@
                 <tbody data-bind="foreach: games">
                   <tr class="game-row">
 										<td data-bind="text: $index() + 1"></td>
-                    <td data-bind="text: _.capitalize(langName())"></td>
+                    <td data-bind="text: _.capitalize(lang())"></td>
                     <td><span data-bind="text: numPlayers"></span><span data-bind="text: maxPlayers"></span></td>
                     <td data-bind="text: statusText, css: statusCss"></td>
                     <td>
