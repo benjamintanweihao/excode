@@ -6,9 +6,10 @@ var user = {
 
 (function() {
 	var Game = function(opts) {
-		this.id         = chance.guid();
+		this.id         = opts.id;
 		this.lang       = ko.observable(opts.lang);
 		this.numPlayers = ko.observable(opts.numPlayers);
+		this.maxPlayers = ko.observable(opts.maxPlayers);
 		this.status     = ko.observable(opts.status);
 		this.statusText = ko.observable(opts.statusText);
 		this.statusCss  = ko.computed(function() {
@@ -75,12 +76,6 @@ var user = {
 
 	ko.applyBindings(viewModel);
 
-	// socket.on('games:join:res', function(data) {
-	//     console.log('received games:join:res');
-	//     if (data.success) {
-	//         redirect('/game');
-	//     }
-	// });
 
 	// socket.on('games:new', function(data) {
 	//     console.log('received games:new');
@@ -119,8 +114,15 @@ var user = {
 		});
 
 		chan.on('games:create:res', payload => {
+		  // TODO; Add success for here too.
 			location.href = "/game"
 		});
+
+    chan.on('games:join:res', function(data) {
+      if (data.success) {
+        location.href = "/game"
+      }
+    });
 
 	});
 
