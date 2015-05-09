@@ -25,7 +25,7 @@
                 </thead>
                 <tbody data-bind="foreach: games">
                   <tr class="game-row">
-										<td data-bind="text: $index() + 1"></td>
+                    <td data-bind="text: $index() + 1"></td>
                     <td data-bind="text: _.capitalize(lang())"></td>
                     <td><span data-bind="text: numPlayers"></span><span data-bind="text: maxPlayers"></span></td>
                     <td data-bind="text: statusText, css: statusCss"></td>
@@ -61,8 +61,8 @@
             <fieldset class="languages">
               <legend>Choose Language</legend>
               <div class="language-list">
-              	<button class="lang btn btn-danger btn-block lang-ruby" type='button' data-bind="click: newGame.bind($data, 'ruby')")>Ruby</button>
-							</div>
+                <button class="lang btn btn-danger btn-block lang-ruby" type='button' data-bind="click: newGame.bind($data, 'ruby')")>Ruby</button>
+              </div>
             </fieldset>
           </div>
         </div>

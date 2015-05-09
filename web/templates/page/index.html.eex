@@ -1,23 +1,23 @@
 <div class="container">
-	<div class="row">
-		<h1 class="text-center login-title">Let's Code!</h1>
-		<div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+  <div class="row">
+    <h1 class="text-center login-title">Let's Code!</h1>
+    <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
 
-			<a class="btn btn-block btn-lg btn-social btn-twitter">
-				<i class="fa fa-twitter"></i>
-				Sign in with Twitter
-			</a>
+      <a class="btn btn-block btn-lg btn-social btn-twitter">
+        <i class="fa fa-twitter"></i>
+        Sign in with Twitter
+      </a>
 
-			<a class="btn btn-block btn-lg btn-social btn-github">
-				<i class="fa fa-github"></i>
-				Sign in with GitHub
-			</a>
+      <a class="btn btn-block btn-lg btn-social btn-github">
+        <i class="fa fa-github"></i>
+        Sign in with GitHub
+      </a>
 
-			<a class="btn btn-block btn-lg btn-social btn-google">
-				<i class="fa fa-google"></i>
-				Sign in with Google
-			</a>
+      <a class="btn btn-block btn-lg btn-social btn-google">
+        <i class="fa fa-google"></i>
+        Sign in with Google
+      </a>
 
-		</div>
-	</div>
+    </div>
+  </div>
 </div>
