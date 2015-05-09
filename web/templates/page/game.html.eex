@@ -1,170 +1,169 @@
 <div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="panel panel-danger control-panel">
-				<div class="panel-heading"></div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-danger control-panel">
+        <div class="panel-heading"></div>
 
-				<div class="panel-body center-parent" data-bind="template: 'controlPanelTemplate'">
-					<div class="row center-child">
-						<div class="col-md-7">
-							<h3 class="status text-info control-panel-go" data-bind="text: game.gameStatus, css: game.gameStatusCss">Go!</h3>
-						</div>
+        <div class="panel-body center-parent" data-bind="template: 'controlPanelTemplate'">
+          <div class="row center-child">
+            <div class="col-md-7">
+              <h3 class="status text-info control-panel-go" data-bind="text: game.gameStatus, css: game.gameStatusCss">Go!</h3>
+            </div>
 
-						<div class="col-md-5">
-							<div data-bind="if: game.timerRunning">
-								<div class="timer-parent">
-									<span class="timer label label-info" data-bind="text: game.timer, css: game.timerCss"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<script id="controlPanelTemplate" type="text/html">
-					<div class="row center-child">
-						<div class="col-md-7">
-							<h3 data-bind="text: game.gameStatus, css: game.gameStatusCss" class="status"></h3>
-						</div>
-						<div class="col-md-5">
-							<div data-bind="if: game.timerRunning">
-								<div class="timer-parent">
-									<span data-bind="text: game.timer, css: game.timerCss" class="timer label"></span>	
-								</div>
-							</div>
-						</div>
-					</div>
-				</script>
-			</div>
-		</div>
-
-		<div class="col-md-6">
-			<div data-bind="template: 'playersPanelTemplate'">
-				<div data-bind="if: game.isMultiplayer"></div>
-			</div>
-			<script id="playersPanelTemplate" type="text/html">
-				<div data-bind="if: game.isMultiplayer">
-					<div class="label label-default">Players</div>
-					<div class="panel panel-default players-panel">
-						<div data-bind="if: loaded() && game.players().length > 0">
-							<div data-bind="foreach: game.players" class="panel-body">
-								<div class="row">
-									<div data-bind="css: cssClass" class="progress progress-striped progress-labeled active">
-										<div data-bind="text: formattedName(20), css: cssClass" class="progress-label"></div>
-										<div data-bind="css: 'progress-bar-' + colorClass(), style: { width: percentage() + '%' }" class="progress-bar progress-labeled">
-											<div data-bind="text: formattedName(20)" class="progress-label"></div>
-										</div>	
-									</div>
-								</div>
-							</div>	
-						</div>
-						<div data-bind="if: loaded() && game.players().length == 0">
-							<div class="panel-body">
-								<div class="row">
-									<div class="progress progress-labeled">
-										<div class="progress-label text-primary">None yet</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</script>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<div class="row">
-				<pre><code class="code" data-bind="css: game.lang"><span data-bind="text: game.gamecode" id="gamecode"/></code></pre>
-			</div>
-		</div>
-	</div>
-
-	<div class="completion-dialog modal fade" data-backdrop="static" data-keyboard="false" id="completion-dialog" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="completion-header text-info" data-bind=
-            "text: completionText"></h3>
+            <div class="col-md-5">
+              <div data-bind="if: game.timerRunning">
+                <div class="timer-parent">
+                  <span class="timer label label-info" data-bind="text: game.timer, css: game.timerCss"></span>
+                </div>
+              </div>
+            </div>
           </div>
- 
-          <div class="modal-body">
-            <div class="col-md-1"></div>
- 
-            <div class="col-md-10 completion-table">
-              <div class="row">
-                <div class="col-md-8">
-                  Time:
-                </div>
- 
-                <div class="col-md-4">
-                  <span data-bind="text: stats.time"></span>
-                </div>
-              </div>
- 
-              <div class="row">
-                <div class="col-md-8">
-                  Speed:
-                </div>
- 
-                <div class="col-md-4">
-                  <span data-bind="text: stats.speed">0</span><span class=
-                  "muted">wpm</span>
-                </div>
-              </div>
- 
-              <div class="row">
-                <div class="col-md-8">
-                  Keystrokes:
-                </div>
- 
-                <div class="col-md-4">
-                  <span data-bind="text: stats.keystrokes">0</span>
-                </div>
-              </div>
- 
-              <div class="row">
-                <div class="col-md-8">
-                  Characters:
-                </div>
- 
-                <div class="col-md-4">
-                  <span data-bind="text: stats.typeables">0</span>
-                </div>
-              </div>
- 
-              <div class="row">
-                <div class="col-md-8">
-                  Unproductive:
-                </div>
- 
-                <div class="col-md-4">
-                  <span data-bind=
-                  "text: stats.percentUnproductive">0</span><span class=
-                  "muted">%</span>
-                </div>
-              </div>
- 
-              <div class="row">
-                <div class="col-md-8">
-                  Mistakes:
-                </div>
- 
-                <div class="col-md-4">
-                  <span data-bind="text: stats.mistakes">0</span>
-                </div>
-              </div>
-
-						<div class="col-md-1"></div>
-						<div class="clearfix"></div>
-					<div class="modal-footer">
-						<a class="btn btn-primary" href="/lobby">Back to lobby</a>
-						<!-- ko if: game.isMultiplayer -->
-            <a class="btn btn-default" data-bind='click: hideCompletionDialog'>Continue watching</a>
-            <!-- /ko -->
-					</div>
         </div>
+        <script id="controlPanelTemplate" type="text/html">
+          <div class="row center-child">
+            <div class="col-md-7">
+              <h3 data-bind="text: game.gameStatus, css: game.gameStatusCss" class="status"></h3>
+            </div>
+            <div class="col-md-5">
+              <div data-bind="if: game.timerRunning">
+                <div class="timer-parent">
+                  <span data-bind="text: game.timer, css: game.timerCss" class="timer label"></span>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </script>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div data-bind="template: 'playersPanelTemplate'">
+        <div data-bind="if: game.isMultiplayer"></div>
+      </div>
+      <script id="playersPanelTemplate" type="text/html">
+        <div data-bind="if: game.isMultiplayer">
+          <div class="label label-default">Players</div>
+          <div class="panel panel-default players-panel">
+            <div data-bind="if: loaded() && game.players().length > 0">
+              <div data-bind="foreach: game.players" class="panel-body">
+                <div class="row">
+                  <div data-bind="css: cssClass" class="progress progress-striped progress-labeled active">
+                    <div data-bind="text: formattedName(20), css: cssClass" class="progress-label"></div>
+                    <div data-bind="css: 'progress-bar-' + colorClass(), style: { width: percentage() + '%' }" class="progress-bar progress-labeled">
+                      <div data-bind="text: formattedName(20)" class="progress-label"></div>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              <div data-bind="if: loaded() && game.players().length == 0">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="progress progress-labeled">
+                        <div class="progress-label text-primary">None yet</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      </script>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <pre><code class="code" data-bind="css: game.lang"><span data-bind="text: game.gamecode" id="gamecode"/></code></pre>
       </div>
     </div>
   </div>
 
+  <div class="completion-dialog modal fade" data-backdrop="static" data-keyboard="false" id="completion-dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="completion-header text-info" data-bind=
+            "text: completionText"></h3>
+        </div>
+
+        <div class="modal-body">
+          <div class="col-md-1"></div>
+
+          <div class="col-md-10 completion-table">
+            <div class="row">
+              <div class="col-md-8">
+                Time:
+              </div>
+
+              <div class="col-md-4">
+                <span data-bind="text: stats.time"></span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8">
+                Speed:
+              </div>
+
+              <div class="col-md-4">
+                <span data-bind="text: stats.speed">0</span><span class=
+                  "muted">wpm</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8">
+                Keystrokes:
+              </div>
+
+              <div class="col-md-4">
+                <span data-bind="text: stats.keystrokes">0</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8">
+                Characters:
+              </div>
+
+              <div class="col-md-4">
+                <span data-bind="text: stats.typeables">0</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8">
+                Unproductive:
+              </div>
+
+              <div class="col-md-4">
+                <span data-bind=
+                  "text: stats.percentUnproductive">0</span><span class=
+                  "muted">%</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8">
+                Mistakes:
+              </div>
+
+              <div class="col-md-4">
+                <span data-bind="text: stats.mistakes">0</span>
+              </div>
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="clearfix"></div>
+            <div class="modal-footer">
+              <a class="btn btn-primary" href="/lobby">Back to Lobby</a>
+              <!-- ko if: game.isMultiplayer -->
+              <a class="btn btn-default" data-bind='click: hideCompletionDialog'>Continue watching</a>
+              <!-- /ko -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
