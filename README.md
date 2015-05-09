@@ -15,6 +15,10 @@ Now you can visit `localhost:4000` from your browser.
 
 ## Roadmap
 
+Here is how it looks like so far:
+
+![](http://i.imgur.com/PujG2il.png)
+
 ### First Iteration
 
 - [x] Single player 
