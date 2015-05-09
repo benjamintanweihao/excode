@@ -14,7 +14,7 @@ var user = {
 		this.statusCss  = ko.computed(function() {
 			var bindings = {
 				'waiting': 'text-warning',
-				'ingame': 'text-success'
+				'ingame':  'text-success'
 			};
 			return bindings[this.status()];
 		}, this);
@@ -75,7 +75,6 @@ var user = {
 
 	ko.applyBindings(viewModel);
 
-
 	// socket.on('games:join:res', function(data) {
 	//     console.log('received games:join:res');
 	//     if (data.success) {
@@ -100,9 +99,9 @@ var user = {
 	// });
 
 	var socket  = new Socket('/ws')
-		socket.connect()
+	socket.connect()
 
-		var channel = null;
+	var channel = null;
 
 	socket.join('lobby', {}).receive('ok', chan => {
 

@@ -3,6 +3,7 @@ defmodule Excode.Game do
 
   defstruct id: nil,
           lang: nil,
+      starting: true,
       exercise: %Exercise{},      
     isComplete: false,
     isJoinable: true,
