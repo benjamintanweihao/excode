@@ -13,11 +13,11 @@ defmodule Excode.Router do
   end
 
   scope "/", Excode do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
-    get "/",          PageController, :index
-    get "/games/:id", PageController, :game
-    get "/lobby",     PageController, :lobby
+    get "/",                                 PageController, :index
+    get "/games/:game_id/player/:player_id", PageController, :game
+    get "/lobby",                            PageController, :lobby
   end
 
   socket "/ws", Excode do

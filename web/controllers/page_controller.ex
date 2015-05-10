@@ -8,7 +8,8 @@ defmodule Excode.PageController do
   end
 
   def game(conn, params) do
-    render conn, "game.html", js: "game", id: params["id"]
+    IO.puts "OMG OMG I AM HERE"
+    render conn, "game.html", js: "game", game_id: params["game_id"], player_id: params["player_id"]
   end
 
   def lobby(conn, _params) do

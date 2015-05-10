@@ -167,3 +167,8 @@
     </div>
   </div>
 </div>
+
+<script>
+var game_id    = "<%= @game_id %>";
+var player_id  = "<%= @player_id %>";
+</script>

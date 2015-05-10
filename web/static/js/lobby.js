@@ -116,13 +116,13 @@ import {Socket} from "phoenix"
 
 		chan.on('games:create:res', payload => {
 		  if (payload.success) {
-			  location.href = "/games/" + payload.game.id;
+			  location.href = "/games/" + payload.game.id + "/player/" + player.id;
       }
 		});
 
     chan.on('games:join:res', payload => {
       if (payload.success) {
-			  location.href = "/games/" + payload.game.id;
+			  location.href = "/games/" + payload.game.id + "/player/" + player.id;
       }
     });
 
