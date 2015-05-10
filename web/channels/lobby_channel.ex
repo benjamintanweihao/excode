@@ -1,32 +1,64 @@
 defmodule Excode.LobbyChannel do
   use Phoenix.Channel
+  alias Excode.GamesServer
+  alias Excode.PlayersServer
+  alias Excode.Game
+  alias Excode.Exercise
 
   def join("lobby", message, socket) do
+    PlayersServer.add_player(message["player"])
     {:ok, socket}
   end
 
   def handle_in("games:fetch", _message, socket) do
     push socket, "games:fetch:res", %{
-      games: [%Excode.Game{id: 12345}]
+      games: GamesServer.fetch_games
     }
-
     {:noreply, socket}
   end
 
   def handle_in("games:create", message, socket) do
-    # 1. Find user
-    # 2. Create new game (language), add player to game
-    # 3. Check if single or multiplayer
-    # 4. Emit success
-    push socket, "games:create:res", %{}
+    result = case PlayersServer.get_player(message["player"]["id"]) do
+      nil -> 
+        %{success: false}
+
+      _  ->
+        exercise = %Exercise{
+          "lang":        "ruby",
+          "projectName": "Jekyll",
+          "code": "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n"
+        }
+
+        game = %Game{
+          "id":         UUID.uuid1(),
+          "lang":       exercise.lang,
+          "exercise":   exercise,
+          "starting":   true,
+          "numPlayers": 1,  
+          "players":    [message["player"]],
+          "game_type":  message["gameType"]
+        }
+
+        case GamesServer.add_game(game) do
+          :ok ->  
+            %{success: true, game: game}
+          _ ->
+            %{success: false}
+        end
+    end
+
+    push socket, "games:create:res", result 
     {:noreply, socket}
   end
 
-  def handle_in("games:join", %{"game" => game_id, "player" => player_id} = message, socket) do
-    # 1. Find game
-    # 2. Add player to game
-    message = Map.put(message, "success", true)
-    push socket, "games:join:res", message
+  def handle_in("games:join", %{"game" => game_id, "player" => player} = message, socket) do
+    game = GamesServer.get_game(game_id)    
+    game = GamesServer.add_player(game_id, player)
+
+    push socket, "games:join:res", %{
+      success: true,
+      game: game
+    }
     {:noreply, socket}
   end
 

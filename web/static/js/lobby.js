@@ -1,9 +1,5 @@
 import {Socket} from "phoenix"
 
-var user = {
-	id: chance.guid()
-};
-
 (function() {
 	var Game = function(opts) {
 		this.id         = opts.id;
@@ -29,7 +25,7 @@ var user = {
 			$('button.lang').attr('disabled', 'disabled');
 			this.joinCss('join-choice');
 
-			channel.push('games:join', { game: this.id, player: user.id });
+			channel.push('games:join', { game: this.id, player: player });
 
 		}.bind(this);
 
@@ -68,7 +64,7 @@ var user = {
 
 			channel.push('games:create', {
 				lang: lang,
-				player: user.id,
+				player: player,
 				gameType: this.newGameType()
 			});
 		}
@@ -98,7 +94,12 @@ var user = {
 
 	var channel = null;
 
-	socket.join('lobby', {}).receive('ok', chan => {
+  var player = {
+    id: chance.guid(),
+    name: chance.name()
+  };
+
+	socket.join('lobby', { player: player }).receive('ok', chan => {
 
 		channel = chan;
 
@@ -114,13 +115,14 @@ var user = {
 		});
 
 		chan.on('games:create:res', payload => {
-		  // TODO; Add success for here too.
-			location.href = "/game"
+		  if (payload.success) {
+			  location.href = "/games/" + payload.game.id;
+      }
 		});
 
-    chan.on('games:join:res', function(data) {
-      if (data.success) {
-        location.href = "/game"
+    chan.on('games:join:res', payload => {
+      if (payload.success) {
+			  location.href = "/games/" + payload.game.id;
       }
     });
 

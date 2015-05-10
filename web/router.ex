@@ -15,9 +15,9 @@ defmodule Excode.Router do
   scope "/", Excode do
     pipe_through :browser # Use the default browser stack
 
-    get "/",      PageController, :index
-    get "/game",  PageController, :game
-    get "/lobby", PageController, :lobby
+    get "/",          PageController, :index
+    get "/games/:id", PageController, :game
+    get "/lobby",     PageController, :lobby
   end
 
   socket "/ws", Excode do

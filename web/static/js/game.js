@@ -447,7 +447,7 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 3;
     _.each(game.players, function(player, i) {
       // Do not add self as an opponent
       if (player != user.id && !(player in state.opponentCursors)) {
-        addOpponent(player, game.playerNames[i]);
+        addOpponent(player, game.players[i].name);
       }
     });
   };
@@ -516,19 +516,19 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 3;
     viewModel.game.players.push(new Player(user.id, 0, user.username));
   };
 
-  var emitCursorAdvance = function() {};
-  //     socket.emit('ingame:advancecursor', {
-  //         game: game.id,
-  //         player: user.id
-  //     });
-  // };
+  var emitCursorAdvance = function() {
+    channel.push('ingame:advancecursor', {
+      game: game.id,
+      player: user
+    });
+  };
 
-  var emitCursorRetreat = function() {};
-  //     socket.emit('ingame:retreatcursor', {
-  //         game: game.id,
-  //         player: user.id
-  //     });
-  // };
+  var emitCursorRetreat = function() {
+    channel.push('ingame:retreatcursor', {
+        game: game.id,
+        player: user 
+    });
+  };
 
   var completeGame = function(cursor) {
     game.isComplete = true;
@@ -639,22 +639,9 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 3;
   //     checkGameState();
   // });
 
-
-  // socket.on('ingame:advancecursor', function(data) {
-  //     var opponent = data.player;
-  //     if (opponent in state.opponentCursors) {
-  //         state.opponentCursors[opponent].advanceCursor();
-  //     }
-  // });
-
-  // socket.on('ingame:retreatcursor', function(data) {
-  //     var opponent = data.player;
-  //     if (opponent in state.opponentCursors) {
-  //         state.opponentCursors[opponent].retreatCursor();
-  //     }
-  // });
-
-  socket.join('games:12345', {}).receive('ok', chan => {
+  var game_id = window.location.href.split("/").pop();
+  
+  socket.join("games:" + game_id).receive('ok', chan => {
 
     channel = chan;
 
@@ -670,6 +657,7 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 3;
       }
 
       game     = payload.game;
+
       exercise = payload.game.exercise;
 
       exercise.code = exercise.code.replace(/(^\n+)|(\s+$)/g, '') + '\n';
@@ -759,6 +747,20 @@ var GAME_SINGLE_PLAYER_WAIT_TIME = 3;
       
       $dialog.modal('show');
 
+    });
+
+    chan.on('ingame:advancecursor', payload => {
+      var opponent = payload.player;
+      if (opponent in state.opponentCursors) {
+        state.opponentCursors[opponent].advanceCursor();
+      }
+    });
+
+    chan.on('ingame:retreatcursor', payload => {
+      var opponent = payload.player;
+      if (opponent in state.opponentCursors) {
+        state.opponentCursors[opponent].retreatCursor();
+      }
     });
 
   });
