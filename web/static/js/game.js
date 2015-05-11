@@ -443,7 +443,6 @@ var user = null;
     // Add new opponents that are not in the list yet
     _.each(game.players, function(player, i) {
       // Do not add self as an opponent
-      // TODO: INVESTIMATE THIS
       if (player.id != user.id && !(player.id in state.opponentCursors)) {
         addOpponent(player.id, game.players[i].name);
       }
