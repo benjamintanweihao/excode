@@ -29,14 +29,21 @@ defmodule Excode.LobbyChannel do
           "code": "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n"
         }
 
+        game_type = message["gameType"]
+        is_single_player = case game_type do
+          "single" -> true
+          _ -> false
+        end
+
         game = %Game{
-          "id":         UUID.uuid1(),
-          "lang":       exercise.lang,
-          "exercise":   exercise,
-          "starting":   true,
-          "numPlayers": 1,  
-          "players":    [message["player"]],
-          "game_type":  message["gameType"]
+          "id":             UUID.uuid1(),
+          "lang":           exercise.lang,
+          "exercise":       exercise,
+          "starting":       true,
+          "numPlayers":     1,  
+          "players":        [message["player"]],
+          "gameType":       game_type,
+          "isSinglePlayer": is_single_player 
         }
 
         case GamesServer.add_game(game) do

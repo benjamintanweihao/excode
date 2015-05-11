@@ -72,7 +72,6 @@ import {Socket} from "phoenix"
 
 	ko.applyBindings(viewModel);
 
-
 	// socket.on('games:new', function(data) {
 	//     console.log('received games:new');
 	//     viewModel.games.unshift(new Game(data));

@@ -41,7 +41,7 @@
         <div data-bind="if: game.isMultiplayer"></div>
       </div>
       <script id="playersPanelTemplate" type="text/html">
-        <div data-bind="if: game.isMultiplayer">
+        <div>
           <div class="label label-default">Players</div>
           <div class="panel panel-default players-panel">
             <div data-bind="if: loaded() && game.players().length > 0">

@@ -11,6 +11,6 @@ defmodule Excode.Game do
     "maxPlayers": 4,
     "numPlayers": 0,
        "players": [],
-     "game_type": nil
+      "gameType": nil
 end
 
