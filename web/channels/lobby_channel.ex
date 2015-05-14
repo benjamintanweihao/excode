@@ -18,34 +18,19 @@ defmodule Excode.LobbyChannel do
   end
 
   def handle_in("games:create", message, socket) do
-    result = case PlayersServer.get_player(message["player"]["id"]) do
+    player    = message["player"]
+    game_type = message["gameType"]
+
+    result = case PlayersServer.get_player(player["id"]) do
       nil -> 
         %{success: false}
 
       _  ->
-        exercise = %Exercise{
-          "lang":        "ruby",
-          "projectName": "Jekyll",
-          "code": "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n"
-        }
-
-        game_type = message["gameType"]
-        is_single_player = case game_type do
-          "single" -> true
-          _ -> false
-        end
-
-        game = %Game{
-          "id":             UUID.uuid1(),
-          "lang":           exercise.lang,
-          "exercise":       exercise,
-          "starting":       true,
-          "numPlayers":     1,  
-          "players":        [message["player"]],
-          "gameType":       game_type,
-          "isSinglePlayer": is_single_player 
-        }
-
+        
+        # TODO: lang should be taken from message["lang"]
+        lang     = "ruby"
+        exercise = create_exercise(lang)
+        game     = create_game(player, exercise, game_type)
         case GamesServer.add_game(game) do
           :ok ->  
             %{success: true, game: game}
@@ -71,6 +56,56 @@ defmodule Excode.LobbyChannel do
 
   def terminate(socket, message) do
     socket
+  end
+
+  defp create_single_player_game(player, exercise) do
+    %Game{ 
+      id:             UUID.uuid1(),
+      lang:           exercise.lang,
+      starting:       true,
+      exercise:       exercise,      
+      isComplete:     false,
+      isJoinable:     false,
+      isSinglePlayer: true,
+      maxPlayers:     1,
+      numPlayers:     1,
+      players:        [player],
+      gameType:       "single",
+      status:         "waiting"
+    }
+  end
+
+  defp create_multi_player_game(player, exercise) do
+    %Game{ 
+      id:             UUID.uuid1(),
+      lang:           exercise.lang,
+      starting:       true,
+      exercise:       exercise,      
+      isComplete:     false,
+      isJoinable:     false,
+      isSinglePlayer: true,
+      maxPlayers:     4,
+      numPlayers:     1,
+      players:        [player],
+      gameType:       "multi",
+      status:         "waiting"
+    }
+  end
+
+
+  def create_game(player, exercise, game_type) do
+    case game_type do
+      "single" -> create_single_player_game(player, exercise)
+      "multi"  -> create_multi_player_game(player, exercise)
+    end
+  end
+
+  defp create_exercise(lang) do
+    %Exercise{
+      "lang":        lang,
+      "projectName": "Jekyll",
+      "code": "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n"
+    }
   end
 
 end

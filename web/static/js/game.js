@@ -626,13 +626,6 @@ var user = null;
     e.preventDefault();
     state.playerCursor.backspaceKey();
   }));
-
-  // socket.on('ingame:update', function(data) {
-  //     console.log('received ingame:update');
-  //     game = data.game;
-  //     state.time = data.timeLeft;
-  //     checkGameState();
-  // });
   
   var pathTokens = window.location.pathname.split("/")
   var game_id    = pathTokens[2];
@@ -754,6 +747,14 @@ var user = null;
       if (opponent_id in state.opponentCursors) {
         state.opponentCursors[opponent_id].retreatCursor();
       }
+    });
+
+    // TODO: Haven't implement this yet.
+    chan.on('ingame:update', payload => {
+      console.log('received ingame:update');
+      game = data.game;
+      state.time = data.timeLeft;
+      checkGameState();
     });
 
   });

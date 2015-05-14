@@ -15,6 +15,13 @@ defmodule Excode.GamesServer do
       dict |> HashDict.put(game.id, game)
     end)
   end
+
+  def update_game(game) do
+    Agent.get_and_update(__MODULE__, fn(dict) ->
+      new_dict = dict |> HashDict.put(game.id, game)
+      {game, new_dict}
+    end)
+  end
   
   def remove_game(game_id) do
     Agent.update(__MODULE__, fn(dict) ->

@@ -17,7 +17,6 @@ defmodule Excode.Router do
 
     get "/",                                 PageController, :index
     get "/games/:game_id/player/:player_id", PageController, :game
-    get "/lobby",                            PageController, :lobby
   end
 
   socket "/ws", Excode do
