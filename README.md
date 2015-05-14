@@ -28,13 +28,14 @@ Here is how it looks like so far:
 
 ### Second Iteration
 
-- [ ] Multi-player (multiple cursors)
-- [ ] Show all players current position
+- [x] Multi-player (multiple cursors)
+- [x] Show all players current position
 - [ ] Selecting exercise based on programming language
+- [ ] Full game logic
 
 ### Third Iteration
 
-- [ ] Styling
+- [x] Styling
 - [ ] Persistance (High Scores, Average WPM etc)
 
 ## Credits
