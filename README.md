@@ -33,6 +33,7 @@ Here is how it looks like so far:
 
 ### Third Iteration
 
+- [ ] Deploying to Heroku
 - [ ] Selecting exercise based on programming language
 
 ## Credits
