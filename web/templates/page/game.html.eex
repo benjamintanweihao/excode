@@ -156,7 +156,7 @@
             <div class="col-md-1"></div>
             <div class="clearfix"></div>
             <div class="modal-footer">
-              <a class="btn btn-primary" href="/lobby">Back to Lobby</a>
+              <a class="btn btn-primary" href="/">Back to Lobby</a>
               <!-- ko if: game.isMultiplayer -->
               <a class="btn btn-default" data-bind='click: hideCompletionDialog'>Continue watching</a>
               <!-- /ko -->

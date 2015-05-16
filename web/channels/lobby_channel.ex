@@ -64,8 +64,6 @@ defmodule Excode.LobbyChannel do
       lang:           exercise.lang,
       starting:       true,
       exercise:       exercise,      
-      isComplete:     false,
-      isJoinable:     false,
       isSinglePlayer: true,
       maxPlayers:     1,
       numPlayers:     1,
@@ -79,11 +77,10 @@ defmodule Excode.LobbyChannel do
     %Game{ 
       id:             UUID.uuid1(),
       lang:           exercise.lang,
-      starting:       true,
+      starting:       false,
       exercise:       exercise,      
-      isComplete:     false,
-      isJoinable:     false,
-      isSinglePlayer: true,
+      isSinglePlayer: false,
+      isJoinable:     true,
       maxPlayers:     4,
       numPlayers:     1,
       players:        [player],
@@ -91,7 +88,6 @@ defmodule Excode.LobbyChannel do
       status:         "waiting"
     }
   end
-
 
   def create_game(player, exercise, game_type) do
     case game_type do
@@ -104,7 +100,8 @@ defmodule Excode.LobbyChannel do
     %Exercise{
       "lang":        lang,
       "projectName": "Jekyll",
-      "code": "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n"
+      # "code": "alias_command :server, :serve\n\ncommand :doctor do |c|\n  c.syntax = 'jekyll doctor'\n  c.description = 'Search site and print specific deprecation warnings'\n\n  c.option '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'\n\n  c.action do |args, options|\n    options = normalize_options(options.__hash__)\n    options = Jekyll.configuration(options)\n    Jekyll::Commands::Doctor.process(options)\n  end\nend\nalias_command :hyde, :doctor\n"
+      "code": "def\nend\n"
     }
   end
 

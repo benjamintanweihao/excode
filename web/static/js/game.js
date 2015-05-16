@@ -349,39 +349,34 @@ var user = null;
       var chunks = [],
       idx = 0;
 
-    _.each(codeGroup, function(piece) {
-      chunks.push(text.slice(idx, piece.idx));
-      idx = piece.idx + 1;
+      _.each(codeGroup, function(piece) {
+        chunks.push(text.slice(idx, piece.idx));
+        idx = piece.idx + 1;
 
-      if (piece.char === '\n') {
-        chunks.push('<span class="code-char return-char"></span>');
-        if (!piece.beforeComment) {
-          chunks.push('\n');
+        if (piece.char === '\n') {
+          chunks.push('<span class="code-char return-char"></span>');
+          if (!piece.beforeComment) {
+            chunks.push('\n');
+          }
+        } else {
+          chunks.push('<span class="code-char">' + piece.char + '</span>');
         }
+      });
+
+      chunks.push(text.slice(idx, text.length));
+      return chunks.join('');
+      };
+
+      if (isTextNode($elem)) {
+        $elem.replaceWith(collapseCodeGroup(codeGroup, text));
       } else {
-        chunks.push('<span class="code-char">' + piece.char + '</span>');
+        // Re-add highlighting classes to the new spans
+        var oldClass = $elem.attr('class');
+        var $newContent = $(collapseCodeGroup(codeGroup, text));
+        $elem.replaceWith($newContent);
+        $newContent.addClass(oldClass);
       }
     });
-
-    chunks.push(text.slice(idx, text.length));
-    return chunks.join('');
-    };
-
-    if (isTextNode($elem)) {
-      $elem.replaceWith(collapseCodeGroup(codeGroup, text));
-    } else {
-      // Re-add highlighting classes to the new spans
-      var oldClass = $elem.attr('class');
-      var $newContent = $(collapseCodeGroup(codeGroup, text));
-      $elem.replaceWith($newContent);
-      $newContent.addClass(oldClass);
-    }
-    });
-
-    // Attach boundcode
-    // swiftcode.boundCode = _.map(codemap, function(piece) { return piece.char; }).join('');
-
-    // Set all code characters to untyped
     $gamecode.find('.code-char').addClass('untyped');
   };
 
@@ -413,9 +408,10 @@ var user = null;
 
   var setStarting = function() {
     if (fullyStarted) {
-      viewModel.game.gameStatus('Get ready... ');
       return;
     }
+
+    viewModel.game.gameStatus('Get ready... ');
 
     updateTime();
     if (!state.playerCursor) {
@@ -539,7 +535,7 @@ var user = null;
     var CHARACTERS_PER_WORD = 5;
     var MILLISECONDS_PER_MINUTE = 60000;
 
-    var realTime    = moment().diff(state.startTime, 'milliseconds');
+    var realTime    = (moment().unix() - state.startTime) * 1000;
     stats.time      = realTime;
     stats.typeables = exercise.typeableCode.length;
     stats.speed     = parseInt((stats.typeables / CHARACTERS_PER_WORD) * (1 / (stats.time / MILLISECONDS_PER_MINUTE)));
@@ -558,9 +554,10 @@ var user = null;
   var lastTimestamp = null;
   var updateTime = function() {
     if (game.starting && !game.isComplete) {
-
       if (state.startTime) {
-        state.time = moment().diff(state.startTime);
+        // console.log("What time: " + state.startTime);
+        state.time = (moment().unix() - state.startTime) * 1000;
+        // console.log("What time: " + state.time);
       }
       var t = moment.duration(state.time);
       var minutes = t.minutes();
@@ -572,9 +569,9 @@ var user = null;
 
       // Increment with smaller granularity for the cruicial starting time
       if (lastTimestamp && !state.startTime) {
-        state.time += moment().diff(lastTimestamp);
+        state.time += (moment().unix() - lastTimestamp) * 1000;
       }
-      lastTimestamp = moment();
+      lastTimestamp = moment().unix();
 
       // Schedule the start of the game if close enough
       if (state.time > -2500 && state.time < 0) {
@@ -635,7 +632,7 @@ var user = null;
 
     channel = chan;
 
-    chan.push('ingame:ready');   
+    chan.push('ingame:ready'); 
 
     chan.on('ingame:ready:res', payload => {
       if (!payload.success) {
@@ -660,8 +657,9 @@ var user = null;
       exercise.typeableCode    = exercise.commentlessCode.replace(/(^[ \t]+)|([ \t]+$)/gm, '').replace(/\n+/g, '\n').trim() + '\n';
       exercise.typeables       = exercise.typeableCode.length;
 
-      state.code = exercise.typeableCode;
-      state.startTime = moment().add(GAME_SINGLE_PLAYER_WAIT_TIME, 'seconds').toDate();
+      state.code      = exercise.typeableCode;
+      state.startTime = game.startTime;
+      console.log(state.startTime)
 
       nonTypeables = payload.nonTypeables // TODO: This is not set properly
 
@@ -680,7 +678,6 @@ var user = null;
     });
 
     chan.on('ingame:complete:res', payload => {
-
       game = payload.game;
 
       var message;
@@ -749,11 +746,11 @@ var user = null;
       }
     });
 
-    // TODO: Haven't implement this yet.
     chan.on('ingame:update', payload => {
       console.log('received ingame:update');
-      game = data.game;
-      state.time = data.timeLeft;
+      game = payload.game;
+      state.startTime = game.startTime;
+      state.time = game.timeLeft;
       checkGameState();
     });
 

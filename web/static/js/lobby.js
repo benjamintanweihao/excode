@@ -105,9 +105,11 @@ import {Socket} from "phoenix"
 		chan.push('games:fetch');
 
 		chan.on('games:fetch:res', payload => {
-			var games = _.map(payload.games, function(v) {
-				return new Game(v);
+			var games = _.map(payload.games, function(g) {
+        console.log(g);
+				return new Game(g);
 			});
+
 			ko.utils.arrayPushAll(viewModel.games, games);
 			viewModel.loading(false);
 			viewModel.loaded(true);
