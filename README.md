@@ -30,13 +30,12 @@ Here is how it looks like so far:
 
 - [x] Multi-player (multiple cursors)
 - [x] Show all players current position
-- [ ] Selecting exercise based on programming language
-- [ ] Full game logic
+- [X] Full game logic
+- [x] Styling
 
 ### Third Iteration
 
-- [x] Styling
-- [ ] Persistance (High Scores, Average WPM etc)
+- [ ] Selecting exercise based on programming language
 
 ## Credits
 
