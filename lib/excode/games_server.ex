@@ -59,9 +59,9 @@ defmodule Excode.GamesServer do
   #   game
   # end
 
-  # defp update_game_state(%Game{numPlayers: maxPlayers, maxPlayers: maxPlayers} = game) do
-  #   %{game | "isJoinable" => false}
-  # end
+  defp update_game_state(%Game{numPlayers: maxPlayers, maxPlayers: maxPlayers} = game) do
+    %{game | isJoinable: false}
+  end
 
   # Nothing to update once game has started.
   defp update_game_state(%Game{started: true} = game) do
@@ -130,6 +130,7 @@ defmodule Excode.GamesServer do
     game = %{game | isJoinable: false}
   end
 
+  # TODO: Might have to forcefully end game
   def end_game(game) do
     game = %{game | "isComplete" => true}
     game = %{game | "isJoinable" => false}
@@ -138,7 +139,7 @@ defmodule Excode.GamesServer do
   def time_left(_), do: 1000
 
   defp start_time do
-    Timex.Time.now(:secs) + 5
+    Timex.Time.now(:secs) + 10000
   end
 
 end

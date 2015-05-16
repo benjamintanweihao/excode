@@ -543,11 +543,7 @@ var user = null;
     stats.percentUnproductive = 1 - stats.typeables / stats.keystrokes;
 
     channel.push('ingame:complete', {
-        time:       state.time,
-        keystrokes: cursor.keystrokes,
-        mistakes:   cursor.mistakes,
-        game:       game,
-        stats:      stats
+      stats: stats
     });
   };
 
@@ -556,9 +552,7 @@ var user = null;
   var updateTime = function() {
     if (game.starting && !game.isComplete) {
       if (state.startTime) {
-        // console.log("What time: " + state.startTime);
         state.time = (moment().unix() - state.startTime) * 1000;
-        // console.log("What time: " + state.time);
       }
       var t = moment.duration(state.time);
       var minutes = t.minutes();
@@ -680,13 +674,11 @@ var user = null;
 
     chan.on('ingame:complete:res', payload => {
       game = payload.game;
-
       var message;
-
       if (game.isSinglePlayer) {
         message = 'You completed the code! Well done!';
       } else {
-        if (game.winner === user.id) {
+        if (game.winner.id === user.id) {
           message = 'Congratulations! You got 1st place!';
         } else {
           message = 'Nicely done!';
@@ -728,9 +720,7 @@ var user = null;
 
         enqueueAnimation();
       });
-      
       $dialog.modal('show');
-
     });
 
     chan.on('ingame:advancecursor', payload => {
@@ -748,7 +738,6 @@ var user = null;
     });
 
     chan.on('ingame:update', payload => {
-      console.log('received ingame:update');
       game = payload.game;
       state.startTime = game.startTime;
       state.time = game.timeLeft;

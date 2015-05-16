@@ -46,7 +46,23 @@ defmodule Excode.GameChannel do
   end
 
   def handle_in("ingame:complete", message, socket) do
-    push socket, "ingame:complete:res", message
+    game_id   = socket.assigns["game_id"]
+    player_id = socket.assigns["player_id"]
+
+    game   = GamesServer.get_game(game_id)
+    player = PlayersServer.get_player(player_id)
+    stats  = message["stats"]
+
+    game = case game.winner do
+      nil -> %{game | winner: player} |> GamesServer.update_game
+      _ -> game
+    end
+
+    push socket, "ingame:complete:res", %{
+      game:  game,
+      stats: stats
+    }
+
     {:noreply, socket}
   end
 

@@ -14,6 +14,7 @@ isSinglePlayer: false,
         status: "waiting",
        started: false,
       starting: false,
-     startTime: nil
+     startTime: nil,
+        winner: nil
 end
 
