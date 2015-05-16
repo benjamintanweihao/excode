@@ -2,8 +2,6 @@
 
 ![ExCodeLogo](https://raw.githubusercontent.com/benjamintanweihao/excode/master/priv/static/images/logo.png)
 
-__Note: Nothing to see here yet!__
-
 ## Starting the Application
 
 To start your new Phoenix application:
