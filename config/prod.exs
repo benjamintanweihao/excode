@@ -16,7 +16,7 @@ config :excode, Excode.Endpoint,
   url: [host: "example.com"],
   cache_static_manifest: "priv/static/manifest.json"
 
-config :excode, Ecto.Repo,
+config :excode, Excode.Repo,
   adapter: Ecto.Adapters.Postgres
 
 
