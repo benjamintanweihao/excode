@@ -16,6 +16,10 @@ config :excode, Excode.Endpoint,
   url: [host: "example.com"],
   cache_static_manifest: "priv/static/manifest.json"
 
+config :excode, Ecto.Repo,
+  adapter: Ecto.Adapters.Postgres
+
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
