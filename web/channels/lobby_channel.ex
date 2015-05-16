@@ -26,11 +26,11 @@ defmodule Excode.LobbyChannel do
         %{success: false}
 
       _  ->
-        
         # TODO: lang should be taken from message["lang"]
         lang     = "ruby"
         exercise = create_exercise(lang)
         game     = create_game(player, exercise, game_type)
+
         case GamesServer.add_game(game) do
           :ok ->  
             %{success: true, game: game}
@@ -69,7 +69,8 @@ defmodule Excode.LobbyChannel do
       numPlayers:     1,
       players:        [player],
       gameType:       "single",
-      status:         "waiting"
+      status:         "waiting", 
+      startTime:      GamesServer.start_time
     }
   end
 

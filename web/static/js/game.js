@@ -654,7 +654,6 @@ var user = null;
 
       state.code      = exercise.typeableCode;
       state.startTime = game.startTime;
-      console.log(state.startTime)
 
       nonTypeables = payload.nonTypeables // TODO: This is not set properly
 
@@ -743,7 +742,6 @@ var user = null;
       state.time = game.timeLeft;
       checkGameState();
     });
-
   });
 
   viewModel.loading(true);

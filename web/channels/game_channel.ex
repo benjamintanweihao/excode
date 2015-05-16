@@ -7,6 +7,7 @@ defmodule Excode.GameChannel do
   def join("games:" <> game_id, message, socket) do
     socket = assign(socket, "player_id", message["player_id"])
     socket = assign(socket, "game_id", game_id)
+
     {:ok, socket}
   end
 
@@ -18,7 +19,7 @@ defmodule Excode.GameChannel do
     player    = PlayersServer.get_player(player_id)
 
     push socket, "ingame:ready:res", %{
-      success: true,
+      success: !(game.isComplete || game.started || game.numPlayers < 1),
       game:    game, 
       player:  player
     }
@@ -32,7 +33,6 @@ defmodule Excode.GameChannel do
 
   def handle_in("ingame:started", _message, socket) do
     game_id = socket.assigns["game_id"]
-
     game = game_id
            |> GamesServer.get_game
            |> GamesServer.start_game
@@ -76,8 +76,21 @@ defmodule Excode.GameChannel do
     {:noreply, socket}
   end
 
-  def terminate(socket, message) do
-    socket
+  def terminate(_, socket) do
+    game_id   = socket.assigns["game_id"]
+    player_id = socket.assigns["player_id"]
+
+    player = PlayersServer.get_player(player_id)
+    game   = GamesServer.remove_player(game_id, player)
+             |> GamesServer.update_game
+
+    if game.numPlayers == 0 do
+      GamesServer.remove_game(game_id)
+    end
+
+    broadcast! socket, "ingame:update", %{
+      game: game 
+    }
   end
 
 end

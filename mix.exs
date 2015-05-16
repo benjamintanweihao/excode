@@ -12,9 +12,6 @@ defmodule Excode.Mixfile do
      deps: deps]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type `mix help compile.app` for more information
   def application do
     [mod: {Excode, []},
      applications: [:phoenix, :cowboy, :logger,
@@ -25,14 +22,12 @@ defmodule Excode.Mixfile do
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
   defp elixirc_paths(_),     do: ["lib", "web"]
 
-  # Specifies your project dependencies
-  #
-  # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "0.12.0", override: true},
-     {:phoenix_ecto, "~> 0.3"},
+    [{:phoenix, "0.13.0", override: true},
+     {:phoenix_ecto, "~> 0.4"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_live_reload, "~> 0.3"},
+     {:phoenix_live_reload, "~> 0.4"},
+     {:phoenix_html, "~> 1.0"},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.0"},
      {:timex, "~> 0.13.4"}]
