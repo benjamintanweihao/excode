@@ -404,6 +404,7 @@ var user = null;
     viewModel.game.gameStatus('Go!');
     viewModel.game.gameStatusCss('text-info control-panel-go');
     fullyStarted = true;
+    channel.push("ingame:started")
   };
 
   var setStarting = function() {

@@ -125,9 +125,9 @@ defmodule Excode.GamesServer do
   # end
 
   def start_game(game) do
-    game = %{game | "started"    => true}
-    game = %{game | "status"     => "ingame"}
-    game = %{game | "isJoinable" => false}
+    game = %{game | started:    true}
+    game = %{game | status:     "ingame"}
+    game = %{game | isJoinable: false}
   end
 
   def end_game(game) do
@@ -138,7 +138,7 @@ defmodule Excode.GamesServer do
   def time_left(_), do: 1000
 
   defp start_time do
-    Timex.Time.now(:secs) + 20
+    Timex.Time.now(:secs) + 5
   end
 
 end
