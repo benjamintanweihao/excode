@@ -1,6 +1,5 @@
 defmodule Excode.GameChannel do
   use Phoenix.Channel
-  alias Excode.Game
   alias Excode.GamesServer
   alias Excode.PlayersServer
 
@@ -76,7 +75,7 @@ defmodule Excode.GameChannel do
     {:noreply, socket}
   end
 
-  def terminate(_, socket) do
+  def terminate(_reason, socket) do
     game_id   = socket.assigns["game_id"]
     player_id = socket.assigns["player_id"]
 

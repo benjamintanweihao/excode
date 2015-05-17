@@ -43,8 +43,7 @@ defmodule Excode.LobbyChannel do
     {:noreply, socket}
   end
 
-  def handle_in("games:join", %{"game" => game_id, "player" => player} = message, socket) do
-    game = GamesServer.get_game(game_id)    
+  def handle_in("games:join", %{"game" => game_id, "player" => player}, socket) do
     game = GamesServer.add_player(game_id, player)
 
     push socket, "games:join:res", %{
@@ -54,8 +53,8 @@ defmodule Excode.LobbyChannel do
     {:noreply, socket}
   end
 
-  def terminate(socket, message) do
-    socket
+  def terminate(_reason, _socket) do
+    :ok
   end
 
   defp create_single_player_game(player, exercise) do

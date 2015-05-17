@@ -74,41 +74,36 @@ defmodule Excode.GamesServer do
   end
   
   defp update_game_state(%Game{numPlayers: 0} = game) do
-    game = %{game | isJoinable: false}
-    game = %{game | isComplete: true}
-    game
+    %{game | isJoinable: false,
+             isComplete: true}
   end
 
   defp update_game_state(%Game{gameType: "single", starting: false} = game) do
-    game = %{game | starting: true}
-    game = %{game | started:  true}
-    game = %{game | startTime: start_time}
-    game
+    %{game | starting: true,
+             started:  true,
+             startTime: start_time}
   end
 
   defp update_game_state(%Game{gameType: "multi", numPlayers: n} = game) when n > 1 do
-    game = %{game | starting:  true}
-    game = %{game | startTime: start_time}
+    %{game | starting:  true,
+             startTime: start_time}
   end
 
   defp update_game_state(%Game{gameType: "multi", numPlayers: n} = game) when n < 2 do
-    game = %{game | isJoinable: true}
-    game = %{game | starting:   false}
-    game = %{game | status:     "waiting"}
-    game
+    %{game | isJoinable: true,
+             starting:   false,
+             status:     "waiting"}
   end
 
   def start_game(game) do
-    game = %{game | isJoinable: false}
-    game = %{game | started:    true}
-    game = %{game | status:     "ingame"}
-    game
+    %{game | isJoinable: false,
+             started:    true,
+             status:     "ingame"}
   end
 
   def end_game(game) do
-    game = %{game | isComplete: true}
-    game = %{game | isJoinable: false}
-    game
+    %{game | isComplete: true,
+             isJoinable: false}
   end
 
   def start_time do
