@@ -15,7 +15,7 @@ defmodule Excode.Mixfile do
   def application do
     [mod: {Excode, []},
      applications: [:phoenix, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :octex]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -29,6 +29,8 @@ defmodule Excode.Mixfile do
      {:phoenix_html, "~> 1.0"},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.0"},
-     {:timex, "~> 0.13.4"}]
+     {:timex, "~> 0.13.4"},
+     {:octex, git: "git://github.com/benjamintanweihao/octex.git"}
+   ]
   end
 end
