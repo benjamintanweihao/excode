@@ -1,5 +1,5 @@
 defmodule Excode.Player do
-  defstruct "id": nil,
-          "name": nil
+  defstruct id: nil,
+          name: nil
 end
 
