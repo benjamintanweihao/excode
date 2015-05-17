@@ -28,13 +28,14 @@ Here is how it looks like so far:
 
 - [x] Multi-player (multiple cursors)
 - [x] Show all players current position
-- [X] Full game logic
+- [x] Full game logic
 - [x] Styling
 
 ### Third Iteration
 
-- [ ] Deploying to Heroku
+- [x] Deploying to Heroku
 - [ ] Selecting exercise based on programming language
+- [ ] OAuth (maybe)
 
 ## Credits
 
