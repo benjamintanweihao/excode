@@ -45,6 +45,7 @@ import {Socket} from "phoenix"
 
   var viewModel = {
     games:       ko.observableArray(),
+    languages:   ko.observableArray(),
     loading:     ko.observable(false),
     loaded:      ko.observable(false),
     newGameType: ko.observable(''),
@@ -65,7 +66,7 @@ import {Socket} from "phoenix"
       channel.push('games:create', {
         lang: lang,
         player: player,
-        gameType: this.newGameType()
+        gameType: viewModel.newGameType() // TODO: Must be a better way to do this.
       });
     }
   };
@@ -108,9 +109,16 @@ import {Socket} from "phoenix"
       }
     });
 
+    chan.on('languages:fetch:res', payload => {
+      viewModel.languages(payload.languages);
+    });
+
+    chan.push('languages:fetch');
+
     setInterval(function() {
       chan.push('games:fetch');
     }, 1000);
+
 
   });
 

@@ -1737,6 +1737,7 @@ var Socket = require("phoenix").Socket;
 
   var viewModel = {
     games: ko.observableArray(),
+    languages: ko.observableArray(),
     loading: ko.observable(false),
     loaded: ko.observable(false),
     newGameType: ko.observable(""),
@@ -1757,7 +1758,7 @@ var Socket = require("phoenix").Socket;
       channel.push("games:create", {
         lang: lang,
         player: player,
-        gameType: this.newGameType()
+        gameType: viewModel.newGameType() // TODO: Must be a better way to do this.
       });
     }
   };
@@ -1799,6 +1800,12 @@ var Socket = require("phoenix").Socket;
         location.href = "/games/" + payload.game.id + "/player/" + player.id;
       }
     });
+
+    chan.on("languages:fetch:res", function (payload) {
+      viewModel.languages(payload.languages);
+    });
+
+    chan.push("languages:fetch");
 
     setInterval(function () {
       chan.push("games:fetch");

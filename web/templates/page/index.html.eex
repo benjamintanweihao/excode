@@ -14,13 +14,11 @@
                   <col width="140px"/>
                   <col width="100px"/>
                   <col width="110px"/>
-                  <col width="90px"/>
                 </colgroup>
                 <thead>
                   <th>#</th>
                   <th>Language</th>
                   <th>Players</th>
-                  <th>Status</th>
                   <th></th>
                 </thead>
                 <tbody data-bind="foreach: games">
@@ -45,23 +43,25 @@
         </fieldset>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="slide-panel-container">
         <div class="slide-panel gametype-container">
           <div class="well">
             <fieldset class="languages">
               <legend>New Game</legend>
-              <button type="button" data-bind="click: setGameType.bind($root, 'single')" class="game-type btn btn-info btn-block">Single-player</button>
-              <button type="button" data-bind="click: setGameType.bind($root, 'multi')" class="game-type btn btn-info btn-block">Multiplayer</button>
+              <button type="button" data-bind="click: $root.setGameType.bind($root, 'single')" class="game-type btn btn-info btn-block">Single-player</button>
+              <button type="button" data-bind="click: $root.setGameType.bind($root, 'multi')" class="game-type btn btn-info btn-block">Multiplayer</button>
             </fieldset>
           </div>
         </div>
+
         <div class="slide-panel lang-container">
           <div class="well">
             <fieldset class="languages">
               <legend>Choose Language</legend>
-              <div class="language-list">
-                <button class="lang btn btn-danger btn-block lang-ruby" type='button' data-bind="click: newGame.bind($data, 'ruby')")>Ruby</button>
+              <div class="language-list" data-bind="foreach: languages">
+                <button class="lang btn btn-block" type='button' data-bind="text: name, style: {'background-color': color}, click: $root.newGame.bind($data, name)"></button>
               </div>
             </fieldset>
           </div>

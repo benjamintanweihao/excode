@@ -1,4 +1,8 @@
 /* Lobby page */
+button.lang.btn.btn-block{
+  color: white;
+}
+
 .lobby {
     margin-bottom: 0;
 }
