@@ -32,10 +32,10 @@ defmodule Excode.GameChannel do
 
   def handle_in("ingame:started", _message, socket) do
     game_id = socket.assigns["game_id"]
-    game = game_id
-           |> GamesServer.get_game
-           |> GamesServer.start_game
-           |> GamesServer.update_game
+    game    = game_id
+                |> GamesServer.get_game
+                |> GamesServer.start_game
+                |> GamesServer.update_game
 
     broadcast! socket, "ingame:update", %{
       game: game
@@ -80,8 +80,9 @@ defmodule Excode.GameChannel do
     player_id = socket.assigns["player_id"]
 
     player = PlayersServer.get_player(player_id)
-    game   = GamesServer.remove_player(game_id, player)
-             |> GamesServer.update_game
+    game   = game_id 
+              |> GamesServer.remove_player(player)
+              |> GamesServer.update_game
 
     if game.numPlayers == 0 do
       GamesServer.remove_game(game_id)

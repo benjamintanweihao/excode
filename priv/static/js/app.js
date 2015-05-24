@@ -1792,6 +1792,9 @@ var Socket = require("phoenix").Socket;
     chan.on("games:create:res", function (payload) {
       if (payload.success) {
         location.href = "/games/" + payload.game.id + "/player/" + player.id;
+      } else {
+        alert(payload.reason);
+        location.href = "/";
       }
     });
 

@@ -5,6 +5,10 @@ defmodule Excode.LobbyChannel do
   alias Excode.Game
   alias Excode.Exercise
 
+  #######################
+  # WebSocket Callbacks #
+  #######################
+
   def join("lobby", message, socket) do
     PlayersServer.add_player(message["player"])
     {:ok, socket}
@@ -19,7 +23,7 @@ defmodule Excode.LobbyChannel do
 
   def handle_in("languages:fetch", _message, socket) do
     push socket, "languages:fetch:res", %{
-      languages: Octex.LangServer.get_languages
+      languages: Octex.fetch_languages
     }
     {:noreply, socket}
   end
@@ -34,14 +38,21 @@ defmodule Excode.LobbyChannel do
         %{success: false}
 
       _  ->
-        exercise = create_exercise(lang)
-        game     = create_game(player, exercise, game_type)
+        res = lang 
+               |> create_exercise 
+               |> create_game(game_type, player)
 
-        case GamesServer.add_game(game) do
-          :ok ->  
-            %{success: true, game: game}
-          _ ->
-            %{success: false}
+        case res do
+          {:ok, game} ->
+            case GamesServer.add_game(game) do
+              :ok ->  
+                %{success: true, game: game}
+              _ ->
+                %{success: false, reason: "Failed to add game"}
+            end
+
+            {:error, reason} ->
+              %{success: false, reason: reason}
         end
     end
 
@@ -63,7 +74,22 @@ defmodule Excode.LobbyChannel do
     :ok
   end
 
-  defp create_single_player_game(player, exercise) do
+  ###############
+  # Private API #
+  ###############
+
+  defp create_game({:error, reason}, _game_type, _player) do
+    {:error, reason}
+  end
+
+  defp create_game(exercise, game_type, player) do
+    case game_type do
+      "single" -> {:ok, create_single_player_game(exercise, player) }
+      "multi"  -> {:ok, create_multi_player_game(exercise, player) }
+    end
+  end
+
+  defp create_single_player_game(exercise, player) do
     %Game{ 
       id:             UUID.uuid1(),
       lang:           exercise.lang,
@@ -79,7 +105,7 @@ defmodule Excode.LobbyChannel do
     }
   end
 
-  defp create_multi_player_game(player, exercise) do
+  defp create_multi_player_game(exercise, player) do
     %Game{ 
       id:             UUID.uuid1(),
       lang:           exercise.lang,
@@ -95,18 +121,14 @@ defmodule Excode.LobbyChannel do
     }
   end
 
-  def create_game(player, exercise, game_type) do
-    case game_type do
-      "single" -> create_single_player_game(player, exercise)
-      "multi"  -> create_multi_player_game(player, exercise)
-    end
-  end
-
   defp create_exercise(lang) do
-    %Exercise{
-      "lang": lang,
-      "code": Octex.random_snippet(lang)
-    }
+    case Octex.fetch_code(lang) do
+      {:ok, code} ->
+        %Exercise{"lang": lang, "code": code}
+
+      {:error, reason} -> 
+        {:error, reason}
+    end
   end
 
 end

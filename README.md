@@ -34,8 +34,9 @@ Here is how it looks like so far:
 ### Third Iteration
 
 - [x] Deploying to Heroku
-- [ ] Selecting exercise based on programming language
+- [x] Selecting exercise based on programming language
 - [ ] OAuth (maybe)
+- [ ] Filtering out non-typeables
 
 ## Credits
 
