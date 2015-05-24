@@ -35,8 +35,8 @@ Here is how it looks like so far:
 
 - [x] Deploying to Heroku
 - [x] Selecting exercise based on programming language
+- [x] Filtering out non-typeables
 - [ ] OAuth (maybe)
-- [ ] Filtering out non-typeables
 
 ## Credits
 

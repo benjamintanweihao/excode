@@ -17,6 +17,8 @@ defmodule Excode.GameChannel do
     game      = GamesServer.get_game(game_id)
     player    = PlayersServer.get_player(player_id)
 
+    # TODO: Check that game and player are available
+
     push socket, "ingame:ready:res", %{
       success: !(game.isComplete || game.started || game.numPlayers < 1),
       game:    game, 

@@ -1586,9 +1586,14 @@ var user = null;
 
       var highlight = exercise.lang in hljs.listLanguages() ? hljs.highlight(exercise.lang, exercise.code, true) : hljs.highlightAuto(exercise.code);
 
-      var NON_TYPEABLES = ["comment", "template_comment", "diff", "javadoc", "phpdoc"];
+      var NON_TYPEABLES = ["hljs-comment", "template_comment", "diff", "javadoc", "phpdoc"];
+      var NON_TYPEABLE_CLASSES = _.map(NON_TYPEABLES, function (c) {
+        return "." + c;
+      }).join(",");
 
-      var commentlessCode = $($.parseHTML(highlight.value)).removeClass(NON_TYPEABLES.join(" "));
+      var commentlessCode = $(highlight.value).filter(function (index, el) {
+        return !$(el).hasClass("hljs-comment");
+      });
       exercise.highlitCode = highlight.value;
       exercise.commentlessCode = commentlessCode.text();
       exercise.typeableCode = exercise.commentlessCode.replace(/(^[ \t]+)|([ \t]+$)/gm, "").replace(/\n+/g, "\n").trim() + "\n";
@@ -1597,7 +1602,7 @@ var user = null;
       state.code = exercise.typeableCode;
       state.startTime = game.startTime;
 
-      nonTypeables = payload.nonTypeables; // TODO: This is not set properly
+      nonTypeables = ".hljs-comment";
 
       viewModel.loaded(true);
       viewModel.loading(false);
