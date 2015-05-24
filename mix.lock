@@ -7,7 +7,7 @@
   "hackney": {:hex, :hackney, "1.1.0"},
   "httpoison": {:hex, :httpoison, "0.6.2"},
   "idna": {:hex, :idna, "1.0.2"},
-  "octex": {:git, "git://github.com/benjamintanweihao/octex.git", "21bda95e2c5bb10c3485ae97f02d4d7fdfba8ac8", []},
+  "octex": {:git, "git://github.com/benjamintanweihao/octex.git", "d0f3c2523922fb494b01d44c610d964bc7641706", []},
   "phoenix": {:hex, :phoenix, "0.13.0"},
   "phoenix_ecto": {:hex, :phoenix_ecto, "0.4.0"},
   "phoenix_html": {:hex, :phoenix_html, "1.0.1"},

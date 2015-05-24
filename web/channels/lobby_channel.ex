@@ -124,7 +124,7 @@ defmodule Excode.LobbyChannel do
   defp create_exercise(lang) do
     case Octex.fetch_code(lang) do
       {:ok, code} ->
-        %Exercise{"lang": lang, "code": code}
+        %Exercise{"lang": lang |> String.downcase, "code": code}
 
       {:error, reason} -> 
         {:error, reason}

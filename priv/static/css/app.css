@@ -6080,6 +6080,7 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs-change,
 .hljs-winutils,
 .hljs-flow,
+.hljs-function,
 .nginx .hljs-title,
 .tex .hljs-special {
   color: #f92672;
@@ -6121,11 +6122,12 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs-preprocessor,
 .hljs-pragma,
 .ruby .hljs-class .hljs-parent,
+.hljs-class,
 .hljs-built_in,
 .django .hljs-template_tag,
 .django .hljs-variable,
+.hljs-variable,
 .smalltalk .hljs-class,
-.hljs-javadoc,
 .django .hljs-filter .hljs-argument,
 .smalltalk .hljs-localvars,
 .smalltalk .hljs-array,
@@ -6158,10 +6160,10 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 }
 
 .hljs-keyword,
+.hljs-function,
 .hljs-literal,
 .css .hljs-id,
-.hljs-phpdoc,
-.hljs-dartdoc,
+.hljs-doctag,
 .hljs-title,
 .hljs-header,
 .hljs-type,

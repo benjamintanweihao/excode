@@ -663,8 +663,8 @@ var user = null;
       viewModel.game.gameStatus('Waiting for players...');
       viewModel.game.gamecode(exercise.code);
       viewModel.game.projectName(exercise.projectName);
-      viewModel.game.langCss('language-' + game.lang);
 
+      viewModel.game.langCss(game.lang);
       hljs.initHighlighting();
       bindCodeCharacters();
       addInitialPlayer();
